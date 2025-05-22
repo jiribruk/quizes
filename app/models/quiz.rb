@@ -1,7 +1,9 @@
-# frozen_string_literal: true
-
+# Quiz represents a quiz entity.
+#
+# @see https://guides.rubyonrails.org/active_record_basics.html
 class Quiz < ApplicationRecord
-  has_many :questions, inverse_of: :quiz
+  has_many :questions, inverse_of: :quiz, dependent: :destroy
 
-  validates_presence_of :name
+  validates :name, presence: true
+
 end

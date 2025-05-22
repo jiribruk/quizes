@@ -1,7 +1,9 @@
-# frozen_string_literal: true
-
-class Answer
+# Answer represents an answer to a question in a quiz.
+#
+# @see https://guides.rubyonrails.org/active_record_basics.html
+class Answer < ApplicationRecord
   belongs_to :question, inverse_of: :answers, optional: false
 
-  validates_presence_of :text
+  validates :text, presence: true
+
 end
