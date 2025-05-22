@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Question represents a question in a quiz.
 #
 # @see https://guides.rubyonrails.org/active_record_basics.html
@@ -7,5 +9,4 @@ class Question < ApplicationRecord
   belongs_to :quiz, inverse_of: :questions, optional: false
 
   validates :text, presence: true
-
 end

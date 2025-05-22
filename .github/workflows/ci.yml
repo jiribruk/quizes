@@ -18,7 +18,7 @@ jobs:
 
       - name: Install dependencies
         run: bundle install --jobs 4 --retry 3
-        
+
       - name: Run Rubocop
         run: bundle exec rubocop ./app
 
