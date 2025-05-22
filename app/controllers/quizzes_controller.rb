@@ -8,27 +8,20 @@ class QuizzesController < ApplicationController
   def index
     @quizzes = Quiz.all
 
-    respond_to do |format|
-      format.html #index.html.erb
-    end
+    respond_to(&:html)
   end
 
   # GET /quizzes/:id
   def show
     quiz
 
-    respond_to do |format|
-      format.html #show.html.erb
-    end
+    respond_to(&:html)
   end
 
   def evaluation
-
     @result = EvaluateQuiz.call(quiz, params[:answers])
 
-    respond_to do |format|
-      format.turbo_stream #evaluation.js.erb
-    end
+    respond_to(&:turbo_stream)
   end
 
   private

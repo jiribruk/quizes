@@ -1,4 +1,8 @@
 # frozen_string_literal: true
+
+# EvaluateQuiz is a service object that compares a user's answers
+# with the correct answers of a given quiz. It returns a hash
+# mapping each question ID to a boolean indicating correctness.
 class EvaluateQuiz
   include Callable
 
@@ -10,15 +14,8 @@ class EvaluateQuiz
   def call
     @result = {}
     @quiz.questions.each do |question|
-      if @user_answers[question.id.to_s] == question.correct_answer.id.to_s
-        @result[question.id.to_s] = true
-      else
-        @result[question.id.to_s] = false
-      end
+      @result[question.id.to_s] = @user_answers[question.id.to_s] == question.correct_answer.id.to_s
     end
     @result
   end
-
-  private
-
 end
