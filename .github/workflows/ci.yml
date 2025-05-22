@@ -5,7 +5,6 @@ on:
 
 jobs:
   rubocop:
-    needs: setup
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -23,7 +22,6 @@ jobs:
         run: bundle exec rubocop ./app
 
   rspec:
-    needs: setup
     runs-on: ubuntu-latest
     services:
       mysql:
