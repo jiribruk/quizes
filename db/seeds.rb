@@ -16,7 +16,7 @@ quiz = Quiz.create!(name: "Kvíz o filmu Babovřesky")
 questions_data = [
   {
     text: "Kdo je režisérem filmu Babovřesky?",
-    answers: [
+    answers_attributes: [
       { text: "Zdeněk Troška", correct: true },
       { text: "Jan Hřebejk", correct: false },
       { text: "Jiří Menzel", correct: false },
@@ -24,7 +24,7 @@ questions_data = [
   },
   {
     text: "V jakém roce měl film Babovřesky premiéru?",
-    answers: [
+    answers_attributes: [
       { text: "2013", correct: true },
       { text: "2010", correct: false },
       { text: "2015", correct: false },
@@ -32,7 +32,7 @@ questions_data = [
   },
   {
     text: "Která postava je farářem v Babovřeskách?",
-    answers: [
+    answers_attributes: [
       { text: "Petr", correct: true },
       { text: "Karel", correct: false },
       { text: "Marek", correct: false },
@@ -40,7 +40,7 @@ questions_data = [
   },
   {
     text: "Jaký žánr nejlépe vystihuje film Babovřesky?",
-    answers: [
+    answers_attributes: [
       { text: "Komedie", correct: true },
       { text: "Drama", correct: false },
       { text: "Horor", correct: false },
@@ -48,7 +48,7 @@ questions_data = [
   },
   {
     text: "Kde se film Babovřesky převážně natáčel?",
-    answers: [
+    answers_attributes: [
       { text: "Jižní Čechy", correct: true },
       { text: "Praha", correct: false },
       { text: "Krkonoše", correct: false },
@@ -56,9 +56,6 @@ questions_data = [
   },
 ]
 
-questions_data.each do |question_data|
-  question = quiz.questions.create!(text: question_data[:text])
-  question_data[:answers].each do |answer|
-    question.answers.create!(text: answer[:text])
-  end
+questions_data.each do |question|
+  quiz.questions.create!(question)
 end

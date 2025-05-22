@@ -7,11 +7,21 @@ class QuizzesController < ApplicationController
   # GET /quizzes
   def index
     @quizzes = Quiz.all
+
+    respond_to(&:html)
   end
 
   # GET /quizzes/:id
   def show
     quiz
+
+    respond_to(&:html)
+  end
+
+  def evaluation
+    @result = EvaluateQuiz.call(quiz, params[:answers])
+
+    respond_to(&:turbo_stream)
   end
 
   private

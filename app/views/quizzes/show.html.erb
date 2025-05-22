@@ -1,0 +1,22 @@
+<h1><%= @quiz.name %></h1>
+
+<%= form_with url: evaluation_quiz_path(@quiz), method: :post do |form| %>
+  <% @quiz.questions.each do |question| %>
+    <div>
+      <h3>
+        <span id="question_<%= question.id %>">
+          <%= question.text %>
+        </span>
+      </h3>
+
+      <% question.answers.each do |answer| %>
+        <div>
+          <%= form.radio_button "answers[#{question.id}]", answer.id, id: "answer_#{answer.id}" %>
+          <%= form.label "answer_#{answer.id}", answer.text %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= form.submit "Odeslat odpovědi" %>
+<% end %>
