@@ -2,23 +2,8 @@ name: CI
 
 on:
   push:
-  pull_request:
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    outputs:
-      ruby-version: ${{ steps.set-ruby-version.outputs.ruby }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        id: set-ruby-version
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.3.7
-          bundler-cache: true
-
   rubocop:
     needs: setup
     runs-on: ubuntu-latest
@@ -30,8 +15,10 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.3.7
-          bundler-cache: true
 
+      - name: Install dependencies
+        run: bundle install --jobs 4 --retry 3
+        
       - name: Run Rubocop
         run: bundle exec rubocop ./app
 
@@ -70,6 +57,9 @@ jobs:
             mysqladmin ping -h127.0.0.1 -uroot --silent && break
             sleep 1
           done
+
+      - name: Install dependencies
+        run: bundle install --jobs 4 --retry 3
 
       - name: Setup test database
         run: bin/rails db:create db:schema:load
