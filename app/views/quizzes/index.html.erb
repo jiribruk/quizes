@@ -1,0 +1,18 @@
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @quizzes.each do |quiz| %>
+    <tr>
+      <td>
+        <%= link_to quiz.name, quiz_path(quiz) %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+

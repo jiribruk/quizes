@@ -1,0 +1,9 @@
+<% @result.each do |question_id, correct| %>
+  <% if correct %>
+    <turbo-stream action="append" target="question_<%= question_id %>">
+      <template>
+        <span class="correct-icon">✅</span>
+      </template>
+    </turbo-stream>
+  <% end %>
+<% end %>
