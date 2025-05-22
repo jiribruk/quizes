@@ -2,9 +2,6 @@ name: CI
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
 
 jobs:
   rubocop:
@@ -12,12 +9,15 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.3.7
+
       - name: Install dependencies
         run: bundle install --jobs 4 --retry 3
+
       - name: Run Rubocop
         run: bundle exec rubocop ./app
 
@@ -42,19 +42,25 @@ jobs:
       DATABASE: quizzes_test
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.3.7
-      - name: Install dependencies
-        run: bundle install --jobs 4 --retry 3
+          bundler-cache: true
+
       - name: Wait for MySQL
         run: |
           for i in {1..30}; do
             mysqladmin ping -h127.0.0.1 -uroot --silent && break
             sleep 1
           done
+
+      - name: Install dependencies
+        run: bundle install --jobs 4 --retry 3
+
       - name: Setup test database
         run: bin/rails db:create db:schema:load
+
       - name: Run RSpec
-        run: bundle exec rspec 
+        run: bundle exec rspec
