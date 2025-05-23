@@ -1,12 +1,10 @@
-<div class="container text-center mt-5">
-  <h1 class="mb-4">
-    List of Quizzes
-  </h1>
-  <ul class="list-group">
-    <% @quizzes.each do |quiz| %>
-      <li class="list-group-item w-50 mx-auto rounded">
-        <%= link_to quiz.name, quiz_path(quiz) %>
-      </li>
-    <% end %>
-  </ul>
-</div>
+<%= heading('List of Quizzes') %>
+
+<ul class="list-group">
+  <% @quizzes.each do |quiz| %>
+    <li class="list-group-item w-50 mx-auto rounded">
+      <%= link_to quiz.name, quiz_path(quiz) %>
+    </li>
+  <% end %>
+</ul>
+

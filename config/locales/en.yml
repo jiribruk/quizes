@@ -28,4 +28,4 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  label_submit_button: "Submit Answers"

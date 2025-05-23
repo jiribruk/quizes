@@ -1,22 +1,21 @@
-<h1><%= @quiz.name %></h1>
+<%= heading(@quiz.name) %>
 
 <%= form_with url: evaluation_quiz_path(@quiz), method: :post do |form| %>
   <% @quiz.questions.each do |question| %>
-    <div>
-      <h3>
-        <span id="question_<%= question.id %>">
-          <%= question.text %>
-        </span>
-      </h3>
-
-      <% question.answers.each do |answer| %>
-        <div>
-          <%= form.radio_button "answers[#{question.id}]", answer.id, id: "answer_#{answer.id}" %>
-          <%= form.label "answer_#{answer.id}", answer.text %>
-        </div>
-      <% end %>
+    <div class="mb-3">
+      <h4>
+        <%= question.text %>
+      </h4>
+      <ul class="list-group list-unstyled">
+        <% question.answers.each do |answer| %>
+          <li class="list-group-item w-25 mx-auto rounded d-flex justify-content-between">
+            <%= form.radio_button "answers[#{question.id}]", answer.id, id: "answer_#{answer.id}" %>
+            <%= form.label "answer_#{answer.id}", answer.text %>
+            <span id="answer_<%= answer.id %>_marker"></span>
+          </li>
+        <% end %>
+      </ul>
     </div>
   <% end %>
-
-  <%= form.submit "Odeslat odpovědi" %>
+  <%= form.submit t('label_submit_button'), class: 'btn btn-primary mb-3' %>
 <% end %>
