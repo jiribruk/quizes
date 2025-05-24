@@ -1,8 +1,14 @@
-<% @result.each do |question_id, correct| %>
-  <% if correct %>
-    <turbo-stream action="append" target="question_<%= question_id %>">
+<% @results.each do |result| %>
+  <% if result.correct? %>
+    <turbo-stream action="update" target="answer_<%= result.correct_answer_id %>_marker">
       <template>
-        <span class="correct-icon">✅</span>
+        <span class="correct-icon ms-auto">✅</span>
+      </template>
+    </turbo-stream>
+  <% else %>
+    <turbo-stream action="update" target="answer_<%= result.user_answer_id %>_marker">
+      <template>
+        <span class="incorrect-icon ms-auto" style="color: red;">❌</span>
       </template>
     </turbo-stream>
   <% end %>

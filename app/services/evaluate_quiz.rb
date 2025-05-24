@@ -12,10 +12,10 @@ class EvaluateQuiz
   end
 
   def call
-    @result = {}
+    @results = []
     @quiz.questions.each do |question|
-      @result[question.id.to_s] = @user_answers[question.id.to_s] == question.correct_answer.id.to_s
+      @results << ::QuestionResult.new(question.id.to_s, question.correct_answer.id.to_s, @user_answers[question.id.to_s])
     end
-    @result
+    @results
   end
 end
