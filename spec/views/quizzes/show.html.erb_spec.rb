@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'quizzes/show', type: :view do
+describe 'quizzes/show', type: :view do
   let!(:quiz) { build_stubbed(:quiz, questions: [question1, question2]) }
   let(:question1) { build_stubbed(:question, text: 'Question 1', answers: [answer1]) }
   let(:question2) { build_stubbed(:question, text: 'Question 2', answers: [answer2]) }

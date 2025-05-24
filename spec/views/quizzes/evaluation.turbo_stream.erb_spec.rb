@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'quizzes/evaluation.turbo_stream', type: :view do
+describe 'quizzes/evaluation.turbo_stream', type: :view do
   let(:results) { [question_result] }
 
   before do

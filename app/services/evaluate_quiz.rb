@@ -27,16 +27,12 @@ class EvaluateQuiz
   #
   # @return [Array<QuestionResult>] The evaluation results for each question.
   def call
-    results = []
+    result = QuizResult.new
     @quiz.questions.each do |question|
-      results << ::QuestionResult.new(
-        question_id: question.id.to_s,
-        correct_answer_id: correct_answer_id(question),
-        user_answer_id: user_answer_id(question),
-        correct: correct?(question)
-      )
+      add_question_result(question, result)
+      result.increase_score if correct?(question)
     end
-    results
+    result
   end
 
   private
@@ -63,5 +59,14 @@ class EvaluateQuiz
   # @return [Boolean] True if the user's answer matches the correct answer.
   def correct?(question)
     correct_answer_id(question) == user_answer_id(question)
+  end
+
+  def add_question_result(question, result)
+    result.add_question_result(
+      question_id: question.id.to_s,
+      correct_answer_id: correct_answer_id(question),
+      user_answer_id: user_answer_id(question),
+      correct: correct?(question)
+    )
   end
 end
