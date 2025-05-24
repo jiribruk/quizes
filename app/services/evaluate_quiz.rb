@@ -6,7 +6,7 @@
 class EvaluateQuiz
   include Callable
 
-  def initialize(quiz, user_answers)
+  def initialize(quiz:, user_answers:)
     @quiz = quiz
     @user_answers = user_answers
   end
@@ -14,7 +14,9 @@ class EvaluateQuiz
   def call
     @results = []
     @quiz.questions.each do |question|
-      @results << ::QuestionResult.new(question.id.to_s, question.correct_answer.id.to_s, @user_answers[question.id.to_s])
+      @results << ::QuestionResult.new(question_id: question.id,
+                                       correct_answer_id: question.correct_answer.id,
+                                       user_answer_id: @user_answers[question.id.to_s])
     end
     @results
   end

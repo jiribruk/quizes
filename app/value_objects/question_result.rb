@@ -23,7 +23,7 @@ class QuestionResult
   # @param question_id [Integer] the ID of the question
   # @param correct_answer_id [Integer] the ID of the correct answer
   # @param user_answer_id [Integer, nil] the ID of the user's selected answer
-  def initialize(question_id, correct_answer_id, user_answer_id)
+  def initialize(question_id:, correct_answer_id:, user_answer_id:)
     @question_id = question_id
     @correct_answer_id = correct_answer_id
     @user_answer_id = user_answer_id
