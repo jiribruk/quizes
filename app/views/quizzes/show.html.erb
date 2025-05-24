@@ -1,4 +1,4 @@
-<%= heading(text: @quiz.name) %>
+<%= title(text: @quiz.name) %>
 
 <%= form_with url: evaluation_quiz_path(@quiz), method: :post do |form| %>
   <% @quiz.questions.each do |question| %>
