@@ -13,7 +13,7 @@ RSpec.describe 'quizzes/index', type: :view do
   end
 
   it 'displays the name of each quiz' do
-    expect(rendered).to include(quiz1.name)
-    expect(rendered).to include(quiz2.name)
+    expect(rendered).to have_link(quiz1.name, href: quiz_path(quiz1))
+    expect(rendered).to have_link(quiz2.name, href: quiz_path(quiz2))
   end
 end
