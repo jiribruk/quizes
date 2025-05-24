@@ -9,7 +9,6 @@ A modern Ruby on Rails 7.1 application for managing and taking quizzes. Supports
 - **Turbo & Stimulus:** Fast, interactive UI with Turbo Streams and Stimulus controllers.
 - **Modern Rails Stack:** Uses Rails 7.1, MySQL, Importmap, Sprockets, and more.
 - **Comprehensive Testing:** RSpec, Capybara, FactoryBot, and Shoulda Matchers.
-- **Docker Support:** Ready-to-use Dockerfile for local or production deployment.
 
 ## Getting Started
 
@@ -18,7 +17,6 @@ A modern Ruby on Rails 7.1 application for managing and taking quizzes. Supports
 - Ruby 3.3.x
 - MySQL 5.7+/8.x
 - Node.js & Yarn (for JS assets, if needed)
-- [Optional] Docker
 
 ### Setup
 
@@ -52,15 +50,6 @@ A modern Ruby on Rails 7.1 application for managing and taking quizzes. Supports
    bin/rails server
    ```
    - Visit [http://localhost:3000](http://localhost:3000)
-
-### Docker
-
-To run the app in Docker:
-
-```sh
-docker build -t quizes .
-docker run -p 3000:3000 quizes
-```
 
 ## Project Structure
 
