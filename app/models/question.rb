@@ -20,6 +20,6 @@ class Question < ApplicationRecord
   def exactly_one_correct_answer
     return if answers.count(&:correct) == 1
 
-    errors.add(:base, I18n.t("valiation_errors.exactly_one_correct_answer"))
+    errors.add(:base, I18n.t('valiation_errors.exactly_one_correct_answer'))
   end
 end

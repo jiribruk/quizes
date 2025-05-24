@@ -11,28 +11,28 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2025_05_21_182220) do
-  create_table "answers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "text", null: false
-    t.boolean "correct", default: false
-    t.bigint "question_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["question_id"], name: "index_answers_on_question_id"
+  create_table 'answers', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
+    t.string 'text', null: false
+    t.boolean 'correct', default: false
+    t.bigint 'question_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['question_id'], name: 'index_answers_on_question_id'
   end
 
-  create_table "questions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "text", null: false
-    t.bigint "quiz_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["quiz_id"], name: "index_questions_on_quiz_id"
+  create_table 'questions', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
+    t.string 'text', null: false
+    t.bigint 'quiz_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['quiz_id'], name: 'index_questions_on_quiz_id'
   end
 
-  create_table "quizzes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "score", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table 'quizzes', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
+    t.string 'name', null: false
+    t.integer 'score', default: 0
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
 end

@@ -4,7 +4,6 @@
 #
 # @see https://guides.rubyonrails.org/action_controller_overview.html
 class QuizzesController < ApplicationController
-
   # GET /quizzes
   def index
     @quizzes = Quiz.all
