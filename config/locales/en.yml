@@ -33,3 +33,5 @@ en:
     submit: "Submit Answers"
   valiation_errors:
     exactly_one_correct_answer: "Exactly one answer must be correct."
+  quiz:
+    score: "Your score is %{score}/%{questions_count}"

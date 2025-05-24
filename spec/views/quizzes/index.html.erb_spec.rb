@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'quizzes/index', type: :view do
+describe 'quizzes/index', type: :view do
   let(:quiz1) { build_stubbed(:quiz) }
   let(:quiz2) { build_stubbed(:quiz) }
   let(:quizzes) { [quiz1, quiz2] }

@@ -19,7 +19,7 @@ class QuizzesController < ApplicationController
   end
 
   def evaluation
-    @results = EvaluateQuiz.call(quiz:, user_answers: params[:answers])
+    @result = EvaluateQuiz.call(quiz:, user_answers: params[:answers])
 
     respond_to(&:turbo_stream)
   end

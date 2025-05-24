@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'quizzes/show', type: :view do
+describe 'quizzes/show', type: :view do
   let!(:quiz) { build_stubbed(:quiz, questions: [question1, question2]) }
   let(:question1) { build_stubbed(:question, text: 'Question 1', answers: [answer1]) }
   let(:question2) { build_stubbed(:question, text: 'Question 2', answers: [answer2]) }
@@ -14,6 +14,7 @@ RSpec.describe 'quizzes/show', type: :view do
   before { assign(:quiz, quiz) }
 
   it { is_expected.to have_selector('h1', text: quiz.name) }
+  it { is_expected.to have_selector("span[id='score_marker']") }
   it { is_expected.to have_selector('h4', text: question1.text) }
   it { is_expected.to have_selector('h4', text: question2.text) }
   it { is_expected.to have_selector('label', text: answer1.text) }
