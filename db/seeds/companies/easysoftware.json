@@ -1,0 +1,46 @@
+{
+  "category": "company",
+  "name": "Kvíz o firmě Easy Software",
+  "questions": [
+    {
+      "text": "Kdy byla založena firma Easy Software?",
+      "answers_attributes": [
+        { "text": "2006", "correct": true },
+        { "text": "2012", "correct": false },
+        { "text": "2018", "correct": false }
+      ]
+    },
+    {
+      "text": "Jaký je hlavní produkt Easy Software?",
+      "answers_attributes": [
+        { "text": "Easy Project", "correct": true },
+        { "text": "Easy CRM", "correct": false },
+        { "text": "Easy Chat", "correct": false }
+      ]
+    },
+    {
+      "text": "Kde má Easy Software hlavní sídlo?",
+      "answers_attributes": [
+        { "text": "Praha", "correct": true },
+        { "text": "Brno", "correct": false },
+        { "text": "Plzeň", "correct": false }
+      ]
+    },
+    {
+      "text": "Kolik má Easy Software přibližně zaměstnanců (2024)?",
+      "answers_attributes": [
+        { "text": "100+", "correct": true },
+        { "text": "20+", "correct": false },
+        { "text": "500+", "correct": false }
+      ]
+    },
+    {
+      "text": "Jaký je slogan Easy Software?",
+      "answers_attributes": [
+        { "text": "We make your projects easy!", "correct": true },
+        { "text": "Software pro každého", "correct": false },
+        { "text": "Jednoduše k cíli", "correct": false }
+      ]
+    }
+  ]
+} 

@@ -1,0 +1,46 @@
+{
+  "category": "movies",
+  "name": "Kvíz o filmu Pán prstenů: Společenstvo Prstenu",
+  "questions": [
+    {
+      "text": "Kdo je autorem knižní předlohy Pána prstenů?",
+      "answers_attributes": [
+        { "text": "J.R.R. Tolkien", "correct": true },
+        { "text": "J.K. Rowlingová", "correct": false },
+        { "text": "George R.R. Martin", "correct": false }
+      ]
+    },
+    {
+      "text": "Kdo režíroval film Pán prstenů: Společenstvo Prstenu?",
+      "answers_attributes": [
+        { "text": "Peter Jackson", "correct": true },
+        { "text": "Steven Spielberg", "correct": false },
+        { "text": "James Cameron", "correct": false }
+      ]
+    },
+    {
+      "text": "Jak se jmenuje hlavní hrdina, který nese Prsten?",
+      "answers_attributes": [
+        { "text": "Frodo Pytlík", "correct": true },
+        { "text": "Samvěd Křepelka", "correct": false },
+        { "text": "Gandalf", "correct": false }
+      ]
+    },
+    {
+      "text": "Která postava je čaroděj?",
+      "answers_attributes": [
+        { "text": "Gandalf", "correct": true },
+        { "text": "Aragorn", "correct": false },
+        { "text": "Legolas", "correct": false }
+      ]
+    },
+    {
+      "text": "Jak se jmenuje prsten, o který ve filmu jde?",
+      "answers_attributes": [
+        { "text": "Jeden prsten", "correct": true },
+        { "text": "Prsten moci", "correct": false },
+        { "text": "Zlatý prsten", "correct": false }
+      ]
+    }
+  ]
+} 

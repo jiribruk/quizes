@@ -1,0 +1,46 @@
+{
+  "category": "company",
+  "name": "Kvíz o firmě Juicymo",
+  "questions": [
+    {
+      "text": "V jakém roce byla založena firma Juicymo?",
+      "answers_attributes": [
+        { "text": "2013", "correct": true },
+        { "text": "2010", "correct": false },
+        { "text": "2018", "correct": false }
+      ]
+    },
+    {
+      "text": "Kde má Juicymo hlavní sídlo?",
+      "answers_attributes": [
+        { "text": "Praha", "correct": true },
+        { "text": "Brno", "correct": false },
+        { "text": "Ostrava", "correct": false }
+      ]
+    },
+    {
+      "text": "Jaký je hlavní obor činnosti Juicymo?",
+      "answers_attributes": [
+        { "text": "Vývoj mobilních a webových aplikací", "correct": true },
+        { "text": "Výroba nápojů", "correct": false },
+        { "text": "Stavebnictví", "correct": false }
+      ]
+    },
+    {
+      "text": "Kdo je zakladatelem Juicymo?",
+      "answers_attributes": [
+        { "text": "Tomáš Jukin a Jana Moudrá", "correct": true },
+        { "text": "Jan Sechovec", "correct": false },
+        { "text": "Petr Novák", "correct": false }
+      ]
+    },
+    {
+      "text": "Jaký je hlavní slogan Juicymo?",
+      "answers_attributes": [
+        { "text": "Přeměníme vaše nápady na softwarová řešení na míru", "correct": true },
+        { "text": "We squeeze your ideas into code!", "correct": false },
+        { "text": "Software bez hranic", "correct": false }
+      ]
+    }
+  ]
+} 
