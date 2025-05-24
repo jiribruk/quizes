@@ -1,15 +1,17 @@
-<% @results.each do |result| %>
+ <%= turbo_stream.replace "score_marker" do %>
+  <%= score_title(score: @result.score, questions_count: @result.questions_count) %>
+<% end %>
+
+<% @result.question_results.each do |result| %>
   <% if result.correct %>
-    <turbo-stream action="update" target="answer_<%= result.correct_answer_id %>_marker">
-      <template>
-        <span class="correct-icon ms-auto">✅</span>
-      </template>
-    </turbo-stream>
+    <%= turbo_stream.update "answer_#{result.correct_answer_id}_marker" do %>
+      <span class="correct-icon ms-auto">✅</span>
+    <% end %>
   <% else %>
-    <turbo-stream action="update" target="answer_<%= result.user_answer_id %>_marker">
-      <template>
-        <span class="incorrect-icon ms-auto" style="color: red;">❌</span>
-      </template>
-    </turbo-stream>
+    <%= turbo_stream.update "answer_#{result.user_answer_id}_marker" do %>
+      <span class="incorrect-icon ms-auto" style="color: red;">❌</span>
+    <% end %>
   <% end %>
 <% end %>
+
+<%= turbo_stream.remove "submit_button" %>
