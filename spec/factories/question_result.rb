@@ -8,6 +8,5 @@ FactoryBot.define do
     correct { true }
 
     initialize_with { new(question_id: question_id, correct_answer_id: correct_answer_id, user_answer_id: user_answer_id, correct: correct) }
-
   end
 end
