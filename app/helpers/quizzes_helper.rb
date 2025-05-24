@@ -38,9 +38,10 @@ module QuizzesHelper
   # @return [String] HTML safe answer item
   def quiz_answer_item(question, answer, form)
     tag.li(class: 'list-group-item w-25 mx-auto rounded d-flex justify-content-between') do
-      form.radio_button("answers[#{question.id}]", answer.id, id: "answer_#{answer.id}") +
-        form.label("answer_#{answer.id}", answer.text) +
-        tag.span('', id: "answer_#{answer.id}_marker")
+      s = form.radio_button("answers[#{question.id}]", answer.id, id: "answer_#{answer.id}")
+      s += form.label("answer_#{answer.id}", answer.text)
+      s += tag.span('', id: "answer_#{answer.id}_marker")
+      s
     end
   end
 end

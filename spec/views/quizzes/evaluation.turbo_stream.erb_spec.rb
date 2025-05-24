@@ -3,14 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe 'quizzes/evaluation.turbo_stream', type: :view do
-  let(:results) { [question_result] }
+  subject(:rendered) { render }
 
-  before do
-    assign(:results, results)
-    render
-  end
-
-  subject { rendered }
+  before { assign(:results, [question_result]) }
 
   context 'when the user answers are correct' do
     let(:question_result) do

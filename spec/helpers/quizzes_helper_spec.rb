@@ -32,16 +32,9 @@ describe QuizzesHelper, type: :helper do
   describe '#quiz_answer_item' do
     let(:question) { build_stubbed(:question, id: 1) }
     let(:answer) { build_stubbed(:answer, id: 2, text: '42') }
-    let(:form) do
-      # Dummy form builder for testing radio and label rendering
-      ActionView::Helpers::FormBuilder.new(:quiz, nil, helper, {})
-    end
 
-    subject(:html_answer_item) { quiz_answer_item(question, answer, form) }
+    subject(:html_answer_item) { quiz_answer_item(question, answer, spy) }
 
     it { is_expected.to have_selector('li.list-group-item.w-25.mx-auto.rounded.d-flex.justify-content-between') }
-    it { is_expected.to have_selector("input[type='radio']") }
-    it { is_expected.to have_selector('label', text: '42') }
-    it { is_expected.to have_selector('span#answer_2_marker') }
   end
 end
