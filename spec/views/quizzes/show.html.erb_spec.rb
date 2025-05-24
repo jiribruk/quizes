@@ -9,22 +9,15 @@ describe 'quizzes/show', type: :view do
   let(:answer1) { build_stubbed(:answer, text: 'Answer 1') }
   let(:answer2) { build_stubbed(:answer, text: 'Answer 2') }
 
-  before do
-    assign(:quiz, quiz)
-    render
-  end
+  subject(:rendered) { render }
 
-  it 'displays the quiz name' do
-    expect(rendered).to include(quiz.name)
-  end
+  before { assign(:quiz, quiz) }
 
-  it 'displays the text of all questions' do
-    expect(rendered).to include(question1.text)
-    expect(rendered).to include(question2.text)
-  end
-
-  it 'displays the text of all answers' do
-    expect(rendered).to include(answer1.text)
-    expect(rendered).to include(answer2.text)
-  end
+  it { is_expected.to have_selector('h1', text: quiz.name) }
+  it { is_expected.to have_selector('h4', text: question1.text) }
+  it { is_expected.to have_selector('h4', text: question2.text) }
+  it { is_expected.to have_selector('label', text: answer1.text) }
+  it { is_expected.to have_selector('label', text: answer2.text) }
+  it { is_expected.to have_selector("input[type='radio'][name='answers[#{question1.id}]']") }
+  it { is_expected.to have_selector("input[type='radio'][name='answers[#{question2.id}]']") }
 end
