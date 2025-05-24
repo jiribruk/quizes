@@ -18,21 +18,18 @@ class QuestionResult
   # @return [Integer, nil] the ID of the user's selected answer
   attr_reader :user_answer_id
 
+  # @return [Boolean] true if the user's answer is correct, false otherwise
+  attr_reader :correct
+
   # Initializes a new QuestionResult instance.
   #
   # @param question_id [Integer] the ID of the question
   # @param correct_answer_id [Integer] the ID of the correct answer
   # @param user_answer_id [Integer, nil] the ID of the user's selected answer
-  def initialize(question_id:, correct_answer_id:, user_answer_id:)
+  def initialize(question_id:, correct_answer_id:, user_answer_id:, correct:)
     @question_id = question_id
     @correct_answer_id = correct_answer_id
     @user_answer_id = user_answer_id
-  end
-
-  # Determines whether the user's answer is correct.
-  #
-  # @return [Boolean] true if the user's answer matches the correct answer, false otherwise
-  def correct?
-    correct_answer_id == user_answer_id
+    @correct = correct
   end
 end

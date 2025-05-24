@@ -13,8 +13,8 @@ describe EvaluateQuiz, type: :service do
 
   let(:user_answers) do
     {
-      question1.id.to_s => answer1_q1.id,
-      question2.id.to_s => answer1_q2.id
+      question1.id.to_s => answer1_q1.id.to_s,
+      question2.id.to_s => answer1_q2.id.to_s
     }
   end
 
@@ -22,9 +22,10 @@ describe EvaluateQuiz, type: :service do
 
   def expect_result(index:, question:, answer:)
     expect(results[index]).to be_a(QuestionResult)
-    expect(results[index].question_id).to eq(question.id)
-    expect(results[index].correct_answer_id).to eq(answer.id)
-    expect(results[index].user_answer_id).to eq(answer.id)
+    expect(results[index].question_id).to eq(question.id.to_s)
+    expect(results[index].correct_answer_id).to eq(answer.id.to_s)
+    expect(results[index].user_answer_id).to eq(answer.id.to_s)
+    expect(results[index].correct).to eq(answer.correct)
   end
 
   it 'returns correct evaluation results for each question' do

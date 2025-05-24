@@ -1,5 +1,5 @@
 <% @results.each do |result| %>
-  <% if result.correct? %>
+  <% if result.correct %>
     <turbo-stream action="update" target="answer_<%= result.correct_answer_id %>_marker">
       <template>
         <span class="correct-icon ms-auto">✅</span>
