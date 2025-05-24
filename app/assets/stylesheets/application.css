@@ -13,3 +13,28 @@
  *= require_tree .
  *= require_self
  */
+
+ @keyframes borderColorCycle {
+    0%   { box-shadow: 0 0 0 4px #FFA500; }
+    25%  { box-shadow: 0 0 0 4px #FF4500; }
+    50%  { box-shadow: 0 0 0 4px #00BFFF; }
+    75%  { box-shadow: 0 0 0 4px #32CD32; }
+    100% { box-shadow: 0 0 0 4px #0400ff; }
+  }
+
+  @keyframes backgroundColorCycle {
+    0%   { background-color: #fcebad; }
+    25%  { background-color: #fdcda6; }
+    50%  { background-color: #a4e1fa; }
+    75%  { background-color: #a9f7a9; }
+    100% { background-color: #a7a7fb; }
+  }
+
+  .animated_score_title {
+    padding: 1em;
+    border: 4px solid #FFD580;
+    border-radius: 10px;
+    color: black;
+    font-weight: bold;
+    animation: backgroundColorCycle 3s linear infinite, borderColorCycle 3s linear infinite;
+  }

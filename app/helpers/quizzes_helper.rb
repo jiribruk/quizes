@@ -2,6 +2,17 @@
 
 # QuizzesHelper provides view helpers for quizzes.
 module QuizzesHelper
+  # Render a score title with animation.
+  #
+  # @param score [Integer]
+  # @param questions_count [Integer]
+  # @return [String] HTML safe score title
+  def score_title(score:, questions_count:)
+    tag.h1(t('quiz.score', score:, questions_count:),
+           id: 'score_title',
+           class: 'mb-4 w-50 mx-auto animated_score_title')
+  end
+
   # Renders a list of quizzes as Bootstrap list-group with links.
   #
   # @param quizzes [Enumerable<Quiz>] List of quizzes to render
@@ -43,5 +54,16 @@ module QuizzesHelper
       s += tag.span('', id: "answer_#{answer.id}_marker")
       s
     end
+  end
+
+  # Render a submit button with Stimulus controller.
+  #
+  # @param form [ActionView::Helpers::FormBuilder]
+  # @return [String] HTML safe submit button
+  def quiz_submit_button(form:)
+    form.submit t('buttons.submit'),
+                class: 'btn btn-primary mb-3',
+                id: 'submit_button',
+                data: { controller: 'quizzes', 'quizzes-target': 'submit' }
   end
 end

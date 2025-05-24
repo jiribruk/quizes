@@ -37,4 +37,17 @@ describe QuizzesHelper, type: :helper do
 
     it { is_expected.to have_selector('li.list-group-item.w-25.mx-auto.rounded.d-flex.justify-content-between') }
   end
+
+  describe '#score_title' do
+    let(:score) { 3 }
+    let(:questions_count) { 5 }
+    subject(:score_html) { score_title(score:, questions_count:) }
+
+    it 'renders h1 with correct id, class and text' do
+      expect(score_html).to have_selector(
+        'h1#score_title.animated_score_title.mb-4.w-50.mx-auto',
+        text: I18n.t('quiz.score', score:, questions_count:)
+      )
+    end
+  end
 end

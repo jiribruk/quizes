@@ -29,8 +29,15 @@ describe 'quizzes/evaluation.turbo_stream', type: :view do
 
   before { assign(:result, quiz_result) }
 
-  it { is_expected.to include('correct-icon') }
-  it { is_expected.to include('incorrect-icon') }
-  it { is_expected.to include('turbo-stream action="remove" target="submit_button"') }
   it { is_expected.to include('turbo-stream action="replace" target="score_marker"') }
+
+  it { is_expected.to include('turbo-stream action="update" target="answer_2_marker"') }
+  it { is_expected.to include('✅') }
+
+  it { is_expected.to include('turbo-stream action="update" target="answer_4_marker"') }
+  it { is_expected.to include('❌') }
+
+  it { is_expected.to include('turbo-stream action="remove" target="submit_button"') }
+
+  it { is_expected.to match(%r{<h1[^>]*>#{I18n.t('quiz.score', score: quiz_result.score, questions_count: quiz_result.questions_count)}</h1>}) }
 end

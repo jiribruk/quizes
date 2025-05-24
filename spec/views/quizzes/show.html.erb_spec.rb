@@ -21,4 +21,5 @@ describe 'quizzes/show', type: :view do
   it { is_expected.to have_selector('label', text: answer2.text) }
   it { is_expected.to have_selector("input[type='radio'][name='answers[#{question1.id}]']") }
   it { is_expected.to have_selector("input[type='radio'][name='answers[#{question2.id}]']") }
+  it { is_expected.to have_selector("input[data-controller='quizzes'][data-quizzes-target='submit']") }
 end
