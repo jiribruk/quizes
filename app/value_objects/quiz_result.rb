@@ -15,18 +15,23 @@ class QuizResult
   # @return [Array] the results for each question
   attr_reader :question_results
 
+  # @return [Integer] the number of questions in the quiz
+  attr_reader :questions_count
+
   # Initializes a new QuizResult with zero score and empty question results.
   def initialize
     @score = 0
     @question_results = []
+    @questions_count = 0
   end
 
   # Adds a question result to the list of question results.
   #
   # @param question_result [Object] the result of a single question
   # @return [void]
-  def add_question_result(question_result)
+  def add_question_result(question_result:)
     @question_results << question_result
+    @questions_count += 1
   end
 
   # Increases the score by 1.

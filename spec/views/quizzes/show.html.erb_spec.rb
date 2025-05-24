@@ -14,6 +14,7 @@ describe 'quizzes/show', type: :view do
   before { assign(:quiz, quiz) }
 
   it { is_expected.to have_selector('h1', text: quiz.name) }
+  it { is_expected.to have_selector("span[id='score_marker']") }
   it { is_expected.to have_selector('h4', text: question1.text) }
   it { is_expected.to have_selector('h4', text: question2.text) }
   it { is_expected.to have_selector('label', text: answer1.text) }
