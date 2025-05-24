@@ -29,3 +29,5 @@
 
 en:
   label_submit_button: "Submit Answers"
+  valiation_errors:
+    exactly_one_correct_answer: "Exactly one answer must be correct."
