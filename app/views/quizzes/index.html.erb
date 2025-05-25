@@ -1,3 +1,12 @@
-<%= title(text: 'List of Quizzes') %>
+<%= title(text: I18n.t('quiz.index.title')) %>
 
-<%= quizzes_list(quizzes: @quizzes) %>
+<ul class="list-group">
+  <% @grouped_quizzes.each do |category_label, quizzes| %>
+    <%= quizzes_group_header(category_label:) %>
+
+    <% quizzes.each do |quiz| %>
+      <%= quizzes_list_item(quiz:) %>
+    <% end %>
+  <% end %>
+</ul>
+

@@ -39,4 +39,14 @@ describe Question, type: :model do
       end
     end
   end
+
+  describe 'default_scope' do
+    let!(:question_a) { create(:question, :with_answers, text: 'Alpha') }
+    let!(:question_b) { create(:question, :with_answers, text: 'Beta') }
+    let!(:question_c) { create(:question, :with_answers, text: 'Charlie') }
+
+    subject(:questions) { Question.all.pluck(:text) }
+
+    it { is_expected.to eq(%w[Alpha Beta Charlie]) }
+  end
 end

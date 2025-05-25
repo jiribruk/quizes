@@ -34,4 +34,11 @@ en:
   valiation_errors:
     exactly_one_correct_answer: "Exactly one answer must be correct."
   quiz:
-    score: "Your score is %{score}/%{questions_count}"
+    score: "Your score is %{score}/%{questions_count}" 
+    category:
+      movies: "Movies"
+      companies: "Companies"
+      others: "Others"
+    index:
+      title: "List of Quizzes"
+

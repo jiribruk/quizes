@@ -8,12 +8,19 @@
 
       <ul class="list-group list-unstyled">
         <% question.answers.each do |answer| %>
-          <%= quiz_answer_item(question:, answer:, form:) %>
+          <li class="list-group-item w-25 mx-auto rounded d-flex justify-content-between">
+            <%= form.radio_button("answers[#{question.id}]", answer.id, id: "answer_#{answer.id}") %>
+            <%= form.label("answer_#{answer.id}", answer.text) %>
+            <%= tag.span('', id: "answer_#{answer.id}_marker") %>
+          </li>
         <% end %>
       </ul>
     </div>
   <% end %>
-  <%= quiz_submit_button(form:) %>
+  <%= form.submit t('buttons.submit'),
+                class: 'btn btn-primary mb-3',
+                id: 'submit_button',
+                data: { controller: 'quizzes', 'quizzes-target': 'submit' } %>
 <% end %>
 
 

@@ -11,6 +11,8 @@ class Question < ApplicationRecord
   validates_presence_of :text
   validate :exactly_one_correct_answer
 
+  default_scope { order(text: :asc) }
+
   def correct_answer
     answers.where(correct: true).first
   end

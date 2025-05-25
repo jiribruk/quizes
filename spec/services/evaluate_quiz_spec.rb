@@ -4,11 +4,15 @@ require 'rails_helper'
 
 describe EvaluateQuiz, type: :service do
   let(:quiz) { create(:quiz) }
-  let!(:question1) { create(:question, quiz: quiz, answers: [answer1_q1, answer2_q1]) }
+  let!(:question1) do
+    create(:question, text: 'Question 1', quiz: quiz, answers: [answer1_q1, answer2_q1])
+  end
   let(:answer1_q1) { build(:answer, correct: true) }
   let(:answer2_q1) { build(:answer, correct: false) }
 
-  let!(:question2) { create(:question, quiz: quiz, answers: [answer1_q2, answer2_q2]) }
+  let!(:question2) do
+    create(:question, text: 'Question 2', quiz: quiz, answers: [answer1_q2, answer2_q2])
+  end
   let(:answer1_q2) { build(:answer, correct: true) }
   let(:answer2_q2) { build(:answer, correct: false) }
 

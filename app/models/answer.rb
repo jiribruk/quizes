@@ -5,4 +5,6 @@ class Answer < ApplicationRecord
   belongs_to :question, inverse_of: :answers, optional: false
 
   validates_presence_of :text
+
+  default_scope { order(text: :asc) }
 end
