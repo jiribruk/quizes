@@ -13,13 +13,13 @@ module QuizzesHelper
            class: 'mb-4 w-50 mx-auto animated_score_title')
   end
 
-  # Renders a list of quizzes as Bootstrap list-group with links.
+  # Renders a group header for quizzes category as a Bootstrap list-group.
   #
-  # @param quizzes [Enumerable<Quiz>] List of quizzes to render
-  # @return [String] HTML safe list of quizzes
-  def quizzes_list(quizzes:)
-    tag.ul(class: 'list-group') do
-      quizzes.map { |quiz| quizzes_list_item(quiz:) }.join.html_safe
+  # @param category_label [String] Název kategorie, defaultně 'others'
+  # @return [String] HTML safe list group header
+  def quizzes_group_header(category_label: 'others')
+    tag.li(class: 'list-unstyled fw-bold text-uppercase mb-1 w-50 mx-auto') do
+      tag.h5(t("quiz.category.#{category_label}"))
     end
   end
 
@@ -39,31 +39,5 @@ module QuizzesHelper
   # @return [String] HTML safe question block
   def quiz_question_title(question_text:)
     tag.h4(question_text)
-  end
-
-  # Render a single answer item with radio button and label.
-  #
-  # @param question [Question]
-  # @param answer [Answer]
-  # @param form [ActionView::Helpers::FormBuilder]
-  # @return [String] HTML safe answer item
-  def quiz_answer_item(question:, answer:, form:)
-    tag.li(class: 'list-group-item w-25 mx-auto rounded d-flex justify-content-between') do
-      s = form.radio_button("answers[#{question.id}]", answer.id, id: "answer_#{answer.id}")
-      s += form.label("answer_#{answer.id}", answer.text)
-      s += tag.span('', id: "answer_#{answer.id}_marker")
-      s
-    end
-  end
-
-  # Render a submit button with Stimulus controller.
-  #
-  # @param form [ActionView::Helpers::FormBuilder]
-  # @return [String] HTML safe submit button
-  def quiz_submit_button(form:)
-    form.submit t('buttons.submit'),
-                class: 'btn btn-primary mb-3',
-                id: 'submit_button',
-                data: { controller: 'quizzes', 'quizzes-target': 'submit' }
   end
 end

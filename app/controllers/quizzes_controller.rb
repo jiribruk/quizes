@@ -6,7 +6,7 @@
 class QuizzesController < ApplicationController
   # GET /quizzes
   def index
-    @quizzes = Quiz.all
+    @grouped_quizzes = Quiz.all.group_by(&:category)
 
     respond_to(&:html)
   end
