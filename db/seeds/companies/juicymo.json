@@ -35,11 +35,11 @@
       ]
     },
     {
-      "text": "Jaký je hlavní slogan Juicymo?",
+      "text": "Ve kterém roce se Juicymo přestěhovalo na Hradčany?",
       "answers_attributes": [
-        { "text": "Přeměníme vaše nápady na softwarová řešení na míru", "correct": true },
-        { "text": "We squeeze your ideas into code!", "correct": false },
-        { "text": "Software bez hranic", "correct": false }
+        { "text": "2021", "correct": true },
+        { "text": "2000", "correct": false },
+        { "text": "2019", "correct": false }
       ]
     }
   ]
