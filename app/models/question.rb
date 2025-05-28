@@ -14,7 +14,7 @@ class Question < ApplicationRecord
   default_scope { order(text: :asc) }
 
   def correct_answer
-    answers.where(correct: true).first
+    answers.find_by(correct: true)
   end
 
   private
