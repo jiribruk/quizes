@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root 'quizzes#index'
 
-  resources :quizzes, only: %i[index show] do
+  resources :quizzes do
     member do
       post :evaluation
     end

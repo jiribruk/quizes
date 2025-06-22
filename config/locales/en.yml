@@ -31,6 +31,11 @@ en:
   buttons:
     home: "Home"
     submit: "Submit Answers"
+    new_quiz: New Quiz
+    confirm:
+      message: Are you sure?
+    destroy: Destroy
+    edit: Edit
   valiation_errors:
     exactly_one_correct_answer: "Exactly one answer must be correct."
   quiz:
@@ -41,4 +46,8 @@ en:
       others: "Others"
     index:
       title: "List of Quizzes"
+  flash:
+    messages:
+      success: Success
+      failed: Failed
 

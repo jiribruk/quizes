@@ -1,0 +1,15 @@
+<%= form_for(quiz, html: { class: "w-100 mx-auto", style: "max-width: 500px;" }) do |form| %>
+  <div class="mb-3">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :category, class: "form-label" %>
+    <%= form.text_field :category, class: "form-control" %>
+  </div>
+
+  <div class="d-grid">
+    <%= form.submit class: "btn btn-primary btn-lg" %>
+  </div>
+<% end %>

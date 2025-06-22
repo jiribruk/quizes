@@ -1,4 +1,7 @@
-<%= title(text: @quiz.name) %>
+<%= tag.h1(class: 'mb-4') do
+  tag.span(@quiz.name) + '     ' +
+    tag.span(link_to("✏", edit_quiz_path(@quiz), title: t('buttons.edit')), class: "fs-6").html_safe
+end %>
 <span id="score_marker"></span>
 
 <%= form_with url: evaluation_quiz_path(@quiz), method: :post do |form| %>
@@ -18,9 +21,9 @@
     </div>
   <% end %>
   <%= form.submit t('buttons.submit'),
-                class: 'btn btn-primary mb-3',
-                id: 'submit_button',
-                data: { controller: 'quizzes', 'quizzes-target': 'submit' } %>
+                  class: 'btn btn-primary mb-3',
+                  id: 'submit_button',
+                  data: { controller: 'quizzes', 'quizzes-target': 'submit' } %>
 <% end %>
 
 

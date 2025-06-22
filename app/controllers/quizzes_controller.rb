@@ -18,6 +18,40 @@ class QuizzesController < ApplicationController
     respond_to(&:html)
   end
 
+  def new
+    @quiz = Quiz.new
+  end
+
+  def create
+    @quiz = Quiz.new(quiz_params)
+    if @quiz.save
+      flash[:notice] = t('flash.messages.success')
+    else
+      flash[:alert] = t('flash.messages.failed')
+    end
+    redirect_to root_path
+  end
+
+  def edit
+    quiz
+  end
+
+  def update
+    quiz.attributes = quiz_params
+    if quiz.save
+      flash[:notice] = t('flash.messages.success')
+    else
+      flash[:alert] = t('flash.messages.failed')
+    end
+    redirect_to root_path
+  end
+
+  def destroy
+    quiz.destroy
+    flash[:notice] = t('flash.messages.success')
+    redirect_to root_path
+  end
+
   def evaluation
     @result = EvaluateQuiz.call(quiz:, user_answers: params[:answers])
 
@@ -30,5 +64,9 @@ class QuizzesController < ApplicationController
   # @return [Quiz]
   def quiz
     @quiz ||= Quiz.find(params[:id])
+  end
+
+  def quiz_params
+    params.require(:quiz).permit(:name, :category)
   end
 end

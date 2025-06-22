@@ -4,6 +4,8 @@
 class Question < ApplicationRecord
   has_many :answers, inverse_of: :question, dependent: :destroy
 
+  has_one_attached :image, dependent: :destroy
+
   belongs_to :quiz, inverse_of: :questions, optional: false
 
   accepts_nested_attributes_for :answers, allow_destroy: true
