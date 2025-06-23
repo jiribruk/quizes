@@ -20,16 +20,21 @@ class QuizzesController < ApplicationController
 
   def new
     @quiz = Quiz.new
+    # Build initial question and answers for better UX
+    @quiz.questions.build
+    @quiz.questions.first.answers.build
+    @question_index = 0
   end
 
   def create
     @quiz = Quiz.new(quiz_params)
     if @quiz.save
       flash[:notice] = t('flash.messages.success')
+      redirect_to quiz_path(@quiz)
     else
-      flash[:alert] = t('flash.messages.failed')
+      flash[:alert] = @quiz.errors.full_messages.join(', ')
+      render :new, status: :unprocessable_entity
     end
-    redirect_to root_path
   end
 
   def edit
@@ -40,10 +45,11 @@ class QuizzesController < ApplicationController
     quiz.attributes = quiz_params
     if quiz.save
       flash[:notice] = t('flash.messages.success')
+      redirect_to quiz_path(quiz)
     else
-      flash[:alert] = t('flash.messages.failed')
+      flash[:alert] = @quiz.errors.full_messages.join(', ')
+      render :edit, status: :unprocessable_entity
     end
-    redirect_to root_path
   end
 
   def destroy
@@ -58,6 +64,30 @@ class QuizzesController < ApplicationController
     respond_to(&:turbo_stream)
   end
 
+  def add_question
+    @quiz = Quiz.new
+    @question_index = params[:question_index].to_i + 1
+    # Add new question
+    @quiz.questions.build
+    @quiz.questions.last.answers.build
+
+    respond_to(&:turbo_stream)
+  end
+
+  def add_answer
+    @quiz = Quiz.new
+
+    @question_index = params[:question_index].to_i
+
+    # Ensure we have enough questions
+    @quiz.questions.build while @quiz.questions.size <= @question_index
+
+    # Add new answer to the specified question
+    @quiz.questions[@question_index].answers.build
+
+    respond_to(&:turbo_stream)
+  end
+
   private
 
   # Finds the quiz by id param.
@@ -67,6 +97,21 @@ class QuizzesController < ApplicationController
   end
 
   def quiz_params
-    params.require(:quiz).permit(:name, :category)
+    params.require(:quiz).permit(
+      :name,
+      :category,
+      questions_attributes: [
+        :id,
+        :image,
+        :text,
+        :_destroy,
+        { answers_attributes: [
+          :id,
+          :text,
+          :correct,
+          :_destroy
+        ] }
+      ]
+    )
   end
 end

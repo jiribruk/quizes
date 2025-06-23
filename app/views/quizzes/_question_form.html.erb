@@ -1,0 +1,38 @@
+<div class="question-item border rounded p-3 mb-3" data-question-index="<%= question_form.index %>">
+  <div class="d-flex justify-content-between align-items-start mb-3">
+    <h6 class="mb-0">Otázka <%= question_index + 1 %></h6>
+    <button type="button" class="btn btn-outline-danger btn-sm remove-question-btn">
+      <i class="bi bi-trash"></i> Odstranit
+    </button>
+  </div>
+  
+  <div class="mb-3">
+    <%= question_form.label :text, "Text otázky", class: "form-label fw-bold" %>
+    <%= question_form.text_area :text, class: "form-control", rows: 3, 
+        placeholder: "Zadejte text otázky" %>
+  </div>
+
+  <!-- Answers section -->
+  <div class="answers-section">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h6 class="mb-0">Odpovědi</h6>
+      <%= link_to add_answer_quizzes_path(question_index: question_index), 
+          class: "btn btn-outline-primary btn-sm add-answer-btn",
+          data: { 
+            turbo_method: :post,
+            turbo_stream: true,
+            action: "click->form#addAnswer"
+          } do %>
+        <i class="bi bi-plus-circle"></i> Přidat odpověď
+      <% end %>
+    </div>
+    
+    <div class="answers-container" id="answers-container-<%= question_index %>">
+      <%= question_form.fields_for :answers do |answer_form| %>
+        <%= render 'answer_form', answer_form: answer_form, question_index: question_index %>
+      <% end %>
+    </div>
+  </div>
+  
+  <%= question_form.hidden_field :_destroy %>
+</div> 

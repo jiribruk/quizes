@@ -1,0 +1,9 @@
+<%= turbo_stream.append "answers-container-#{@question_index}" do %>
+  <%= fields_for :quiz, @quiz do |form| %>
+    <%= form.fields_for :questions, @quiz.questions[@question_index] do |question_form| %>
+      <%= question_form.fields_for :answers, @quiz.questions[@question_index].answers.last do |answer_form| %>
+        <%= render 'answer_form', answer_form: answer_form, question_index: @question_index %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %> 

@@ -1,15 +1,60 @@
-<%= form_for(quiz, html: { class: "w-100 mx-auto", style: "max-width: 500px;" }) do |form| %>
-  <div class="mb-3">
-    <%= form.label :name, class: "form-label" %>
-    <%= form.text_field :name, class: "form-control" %>
+<%= form_for(quiz, html: { class: "w-100 mx-auto", style: "max-width: 800px;" }) do |form| %>
+  <% if quiz.errors.any? %>
+    <div class="alert alert-danger mb-4">
+      <h5 class="alert-heading">Při ukládání došlo k chybám:</h5>
+      <ul class="mb-0">
+        <% quiz.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- Quiz basic info -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="card-title mb-0">Základní informace o kvízu</h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <%= form.label :name, "Název kvízu", class: "form-label fw-bold" %>
+          <%= form.text_field :name, class: "form-control", placeholder: "Zadejte název kvízu" %>
+        </div>
+        <div class="col-md-6 mb-3">
+          <%= form.label :category, "Kategorie", class: "form-label fw-bold" %>
+          <%= form.text_field :category, class: "form-control", placeholder: "Zadejte kategorii" %>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="mb-3">
-    <%= form.label :category, class: "form-label" %>
-    <%= form.text_field :category, class: "form-control" %>
+  <!-- Questions section -->
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="card-title mb-0">Otázky</h5>
+      <%= link_to add_question_quizzes_path, 
+          class: "btn btn-success btn-sm",
+          data: { 
+            turbo_method: :post,
+            turbo_stream: true,
+            action: "click->form#addQuestion",
+            question_index: @question_index
+          } do %>
+        <i class="bi bi-plus-circle"></i> Přidat otázku
+      <% end %>
+    </div>
+    <div class="card-body">
+      <div id="questions-container">
+        <%= form.fields_for :questions do |question_form| %>
+          <%= render 'question_form', question_form: question_form, question_index: @question_index %>
+        <% end %>
+      </div>
+    </div>
   </div>
 
-  <div class="d-grid">
+  <!-- Submit button -->
+  <div class="d-grid gap-2">
     <%= form.submit class: "btn btn-primary btn-lg" %>
   </div>
 <% end %>
