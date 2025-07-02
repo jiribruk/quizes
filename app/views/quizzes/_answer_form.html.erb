@@ -1,13 +1,13 @@
-<div class="answer-item border rounded p-2 mb-2" data-answer-index="<%= answer_form.index %>">
+<div class="answer-item border rounded p-2 mb-2" data-answer-index="<%= indexes[:question_index][indexes[:question_index].keys.first][:answer_index] %>">
   <div class="row align-items-center">
     <div class="col-md-8">
-      <%= answer_form.text_field :text, class: "form-control", 
+      <%= text_field_tag :text, nil, class: "form-control", 
           placeholder: "Zadejte text odpovědi" %>
     </div>
     <div class="col-md-3">
       <div class="form-check">
-        <%= answer_form.check_box :correct, class: "form-check-input" %>
-        <%= answer_form.label :correct, "Správná odpověď", class: "form-check-label" %>
+        <%= check_box_tag :correct, nil, false, class: "form-check-input" %>
+        <%= label_tag :correct, "Správná odpověď", class: "form-check-label", for: "correct" %>
       </div>
     </div>
     <div class="col-md-1">
@@ -16,5 +16,5 @@
       </button>
     </div>
   </div>
-  <%= answer_form.hidden_field :_destroy %>
+  <%= hidden_field_tag :_destroy %>
 </div> 

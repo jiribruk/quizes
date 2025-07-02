@@ -12,5 +12,9 @@ Rails.application.routes.draw do
     member do
       post :evaluation
     end
+    collection do
+      post :add_question
+      post :add_answer
+    end
   end
 end

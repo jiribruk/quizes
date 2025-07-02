@@ -20,10 +20,9 @@ class QuizzesController < ApplicationController
 
   def new
     @quiz = Quiz.new
-    # Build initial question and answers for better UX
-    @quiz.questions.build
-    @quiz.questions.first.answers.build
-    @question_index = 0
+    @indexes = {
+      question_index: { 0 => { answer_index: 0 } }
+    }
   end
 
   def create
@@ -66,24 +65,19 @@ class QuizzesController < ApplicationController
 
   def add_question
     @quiz = Quiz.new
-    @question_index = params[:question_index].to_i + 1
-    # Add new question
-    @quiz.questions.build
-    @quiz.questions.last.answers.build
+    @indexes = {
+      question_index: { params[:question_index].to_i + 1 => { answer_index: 0 } }
+    }
 
     respond_to(&:turbo_stream)
   end
 
   def add_answer
     @quiz = Quiz.new
-
-    @question_index = params[:question_index].to_i
-
-    # Ensure we have enough questions
-    @quiz.questions.build while @quiz.questions.size <= @question_index
-
-    # Add new answer to the specified question
-    @quiz.questions[@question_index].answers.build
+    binding.pry
+    @indexes = {
+      question_index: { params[:question_index].to_i => { answer_index: params[:answer_index].to_i + 1 } }
+    }
 
     respond_to(&:turbo_stream)
   end
