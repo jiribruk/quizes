@@ -31,9 +31,9 @@ describe 'quizzes/_question', type: :view do
   it { is_expected.to have_selector("button.remove-question-btn[data-action='quizzes#remove']") }
   it {
     is_expected.to have_link(
-                     I18n.t('buttons.add_answer'),
-                     href: add_answer_quizzes_path(question_index: question_index, answer_index: answer_index)
-                   )
+      I18n.t('buttons.add_answer'),
+      href: add_answer_quizzes_path(question_index: question_index, answer_index: answer_index)
+    )
   }
   it { is_expected.to have_selector("div#answers-container-for-question#{question_index}") }
 

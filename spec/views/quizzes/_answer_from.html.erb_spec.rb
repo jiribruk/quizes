@@ -38,6 +38,8 @@ describe 'quizzes/_answer_form', type: :view do
   end
 
   it 'renders hidden _destroy field with proper data attribute' do
-    is_expected.to have_selector("input[type='hidden'][name='quiz[questions_attributes][#{question_index}][answers_attributes][#{answer_index}][_destroy]'][value='false'][data-quizzes-target='destroyField']", visible: false)
+    is_expected.to have_selector(
+      "input[type='hidden'][name='quiz[questions_attributes][#{question_index}][answers_attributes][#{answer_index}][_destroy]'][value='false'][data-quizzes-target='destroyField']", visible: false
+    )
   end
 end

@@ -30,7 +30,7 @@ describe 'quizzes/_form', type: :view do
     expect(view).to render_template(partial: 'quizzes/_question_form')
   end
 
-  it { is_expected.to have_selector("a#add_question_button.btn.btn-success.btn-sm") }
+  it { is_expected.to have_selector('a#add_question_button.btn.btn-success.btn-sm') }
   it { is_expected.to have_link(I18n.t('buttons.add_question'), href: add_question_quizzes_path(question_index: indexes.question_index)) }
 
   it { is_expected.to have_selector("input[type='submit']") }
