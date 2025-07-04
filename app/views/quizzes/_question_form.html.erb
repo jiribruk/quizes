@@ -14,6 +14,27 @@
                       question.text, class: "form-control",
                       rows: 3,
                       placeholder: "Zadejte text otázky" %>
+    <%= label_tag "quiz[questions_attributes][#{question_index}][image]",
+                  "Obrázek otázky",
+                  class: "form-label fw-bold mt-3" %>
+    <%= file_field_tag "quiz[questions_attributes][#{question_index}][image]",
+                       direct_upload: true,
+                       class: "form-control",
+                       data: {
+                         action: "change->quizzes#previewImage",
+                         quizzes_target: "fileInput"
+                       } %>
+
+    <div class="mt-2">
+      <img class="img-thumbnail d-none" style="max-width: 150px;" data-quizzes-target="preview">
+    </div>
+
+    <% if question.image.attached? %>
+      <div class="mt-2">
+        <%= image_tag url_for(question.image), class: "img-thumbnail", style: "max-width: 150px; height: auto;" if question.image.attached? %>
+      </div>
+    <% end %>
+
     <%= hidden_field_tag "quiz[questions_attributes][#{question_index}][id]", question.id if question.persisted? %>
     <%= hidden_field_tag "quiz[questions_attributes][#{question_index}][_destroy]", "false", data: { quizzes_target: "destroyField" } %>
   </div>
