@@ -33,7 +33,7 @@
   <div class="card mb-4">
     <div class="card-header d-flex justify-content-between align-items-center">
       <h5 class="card-title mb-0">Otázky</h5>
-      <%= link_to add_question_quizzes_path(question_index: @indexes.question_index),
+      <%= link_to add_question_quizzes_path(question_index: @indexes&.question_index || quiz.questions.index.max),
                   class: "btn btn-success btn-sm",
                   id: "add_question_button",
                   data: {
@@ -45,7 +45,9 @@
     </div>
     <div class="card-body">
       <div id="questions-container">
-        <%= render partial: 'question_form', locals: { indexes: @indexes } %>
+        <% quiz.questions.each_with_index do |question, index| %>
+          <%= render partial: 'question_form', locals: { question_index: @indexes&.question_index || index, answer_index: @indexes&.answer_index, question: question } %>
+        <% end %>
       </div>
     </div>
   </div>

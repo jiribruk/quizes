@@ -19,4 +19,14 @@ export default class extends Controller {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  static targets = ["destroyField"]
+
+  remove() {
+    if (this.hasDestroyFieldTarget) {
+      this.destroyFieldTarget.value = "1"
+    }
+
+    this.element.style.display = "none"
+  }
+
 }

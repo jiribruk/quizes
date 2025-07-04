@@ -1,5 +1,5 @@
 <%= turbo_stream.append "questions-container" do %>
-  <%= render 'question_form', indexes: @indexes %>
+  <%= render partial: 'question_form', locals: { question_index: @indexes.question_index, answer_index: @indexes.answer_index, question: @question } %>
 <% end %>
 <%= turbo_stream.replace "add_question_button" do %>
   <%= link_to add_question_quizzes_path(question_index: @indexes.question_index),

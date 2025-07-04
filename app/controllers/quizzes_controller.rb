@@ -20,6 +20,8 @@ class QuizzesController < ApplicationController
 
   def new
     @quiz = Quiz.new
+    @quiz.questions.build
+    @quiz.questions.first.answers.build
     @indexes = Indexes.new
   end
 
@@ -63,16 +65,17 @@ class QuizzesController < ApplicationController
 
   def add_question
     @quiz = Quiz.new
-    @indexes = Indexes.new(question_index: params[:question_index].to_i)
-    @indexes.question_index_up
+    indexes.question_index_up
+    @question = Question.new
+    @question.answers.build
 
     respond_to(&:turbo_stream)
   end
 
   def add_answer
     @quiz = Quiz.new
-    @indexes = Indexes.new(question_index: params[:question_index].to_i, answer_index: params[:answer_index].to_i)
-    @indexes.answer_index_up
+    indexes.answer_index_up
+    @answer = Answer.new
 
     respond_to(&:turbo_stream)
   end
@@ -83,6 +86,10 @@ class QuizzesController < ApplicationController
   # @return [Quiz]
   def quiz
     @quiz ||= Quiz.find(params[:id])
+  end
+
+  def indexes
+    @indexes ||= Indexes.new(question_index: params[:question_index].to_i, answer_index: params[:answer_index].to_i)
   end
 
   def quiz_params
