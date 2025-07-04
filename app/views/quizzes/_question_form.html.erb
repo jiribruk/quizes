@@ -1,35 +1,35 @@
-<div class="question-item border rounded p-3 mb-3" data-question-index="<%=  indexes[:question_index].keys.first %>">
+<div class="question-item border rounded p-3 mb-3" data-question-index="<%= indexes.question_index %>">
   <div class="d-flex justify-content-between align-items-start mb-3">
-    <h6 class="mb-0">Otázka <%= indexes[:question_index].keys.first + 1 %></h6>
+    <h6 class="mb-0">Otázka <%= indexes.question_index + 1 %></h6>
     <button type="button" class="btn btn-outline-danger btn-sm remove-question-btn">
       <i class="bi bi-trash"></i> Odstranit
     </button>
   </div>
-  
+
   <div class="mb-3">
     <%= label_tag :text, "Text otázky", class: "form-label fw-bold", for: "text" %>
-    <%= text_area_tag :text, nil, class: "form-control", rows: 3, 
-        placeholder: "Zadejte text otázky" %>
+    <%= text_area_tag "quiz[questions_attributes][#{indexes.question_index}][text]", nil, class: "form-control", rows: 3,
+                      placeholder: "Zadejte text otázky" %>
+    <%= hidden_field_tag "quiz[questions_attributes][#{indexes.question_index}][id]" %>
   </div>
 
   <!-- Answers section -->
   <div class="answers-section">
     <div class="d-flex justify-content-between align-items-center mb-2">
       <h6 class="mb-0">Odpovědi</h6>
-      <%= link_to add_answer_quizzes_path(question_index: indexes[:question_index].keys.first, answer_index: indexes[:question_index][:answer_index]), 
-          class: "btn btn-outline-primary btn-sm add-answer-btn",
-          data: { 
-            turbo_method: :post,
-            turbo_stream: true,
-          } do %>
+      <%= link_to add_answer_quizzes_path(question_index: indexes.question_index, answer_index: indexes.answer_index),
+                  class: "btn btn-outline-primary btn-sm add-answer-btn",
+                  id: "add_answer_button_for_question_#{indexes.question_index}",
+                  data: {
+                    turbo_method: :post,
+                    turbo_stream: true,
+                  } do %>
         <i class="bi bi-plus-circle"></i> Přidat odpověď
       <% end %>
     </div>
-    
-    <div class="answers-container" id="answers-container-<%= indexes[:question_index][:answer_index] %>">
+
+    <div class="answers-container" id="answers-container-<%= "#{indexes.question_index}" %>">
       <%= render partial: 'answer_form', locals: { indexes: indexes } %>
     </div>
   </div>
-  
-  <%= hidden_field_tag :_destroy %>
 </div> 

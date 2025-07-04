@@ -1,12 +1,12 @@
-<div class="answer-item border rounded p-2 mb-2" data-answer-index="<%= indexes[:question_index][indexes[:question_index].keys.first][:answer_index] %>">
+<div class="answer-item border rounded p-2 mb-2" data-answer-index="<%= indexes.answer_index %>">
   <div class="row align-items-center">
     <div class="col-md-8">
-      <%= text_field_tag :text, nil, class: "form-control", 
+      <%= text_field_tag "quiz[questions_attributes][#{indexes.question_index}][answers_attributes][#{indexes.answer_index}][text]", nil, class: "form-control",
           placeholder: "Zadejte text odpovědi" %>
     </div>
     <div class="col-md-3">
       <div class="form-check">
-        <%= check_box_tag :correct, nil, false, class: "form-check-input" %>
+        <%= check_box_tag "quiz[questions_attributes][#{indexes.question_index}][answers_attributes][#{indexes.answer_index}][correct]", nil, false, class: "form-check-input" %>
         <%= label_tag :correct, "Správná odpověď", class: "form-check-label", for: "correct" %>
       </div>
     </div>

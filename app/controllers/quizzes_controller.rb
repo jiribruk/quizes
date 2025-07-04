@@ -20,9 +20,7 @@ class QuizzesController < ApplicationController
 
   def new
     @quiz = Quiz.new
-    @indexes = {
-      question_index: { 0 => { answer_index: 0 } }
-    }
+    @indexes = Indexes.new
   end
 
   def create
@@ -65,19 +63,16 @@ class QuizzesController < ApplicationController
 
   def add_question
     @quiz = Quiz.new
-    @indexes = {
-      question_index: { params[:question_index].to_i + 1 => { answer_index: 0 } }
-    }
+    @indexes = Indexes.new(question_index: params[:question_index].to_i)
+    @indexes.question_index_up
 
     respond_to(&:turbo_stream)
   end
 
   def add_answer
     @quiz = Quiz.new
-    binding.pry
-    @indexes = {
-      question_index: { params[:question_index].to_i => { answer_index: params[:answer_index].to_i + 1 } }
-    }
+    @indexes = Indexes.new(question_index: params[:question_index].to_i, answer_index: params[:answer_index].to_i)
+    @indexes.answer_index_up
 
     respond_to(&:turbo_stream)
   end

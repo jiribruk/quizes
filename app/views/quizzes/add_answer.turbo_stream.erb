@@ -1,3 +1,14 @@
-<%= turbo_stream.append "answers-container-#{@indexes[:question_index][@indexes[:question_index].keys.first][:answer_index]}" do %>
-    <%= render partial: 'answer_form', locals: { indexes: @indexes } %>
-<% end %> 
+<%= turbo_stream.append "answers-container-#{@indexes.question_index}" do %>
+  <%= render partial: 'answer_form', locals: { indexes: @indexes } %>
+<% end %>
+<%= turbo_stream.replace "add_answer_button_for_question_#{@indexes.question_index}" do %>
+  <%= link_to add_answer_quizzes_path(question_index: @indexes.question_index, answer_index: @indexes.answer_index),
+              class: "btn btn-outline-primary btn-sm add-answer-btn",
+              id: "add_answer_button_for_question_#{@indexes.question_index}",
+              data: {
+                turbo_method: :post,
+                turbo_stream: true,
+              } do %>
+    <i class="bi bi-plus-circle"></i> Přidat odpověď
+  <% end %>
+<% end %>

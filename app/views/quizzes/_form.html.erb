@@ -33,12 +33,13 @@
   <div class="card mb-4">
     <div class="card-header d-flex justify-content-between align-items-center">
       <h5 class="card-title mb-0">Otázky</h5>
-      <%= link_to add_question_quizzes_path(question_index: @indexes[:question_index].keys.first), 
-          class: "btn btn-success btn-sm",
-          data: { 
-            turbo_method: :post,
-            turbo_stream: true,
-          } do %>
+      <%= link_to add_question_quizzes_path(question_index: @indexes.question_index),
+                  class: "btn btn-success btn-sm",
+                  id: "add_question_button",
+                  data: {
+                    turbo_method: :post,
+                    turbo_stream: true,
+                  } do %>
         <i class="bi bi-plus-circle"></i> Přidat otázku
       <% end %>
     </div>
