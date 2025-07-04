@@ -112,14 +112,14 @@ class QuizzesController < ApplicationController
   end
 
   def remove_image_from_question
-    if params[:quiz][:questions_attributes]
-      params[:quiz][:questions_attributes].each do |_, question_attrs|
-        if question_attrs[:image_attachment_attributes]&.dig(:_destroy) == "1"
-          question = Question.find(question_attrs[:id])
-          question.image.purge if question.image.attached?
-          question_attrs.delete(:image_attachment_attributes)
-        end
-      end
+    return unless params[:quiz][:questions_attributes]
+
+    params[:quiz][:questions_attributes].each_value do |question_attrs|
+      next unless question_attrs[:image_attachment_attributes]&.dig(:_destroy) == '1'
+
+      question = Question.find(question_attrs[:id])
+      question.image.purge if question.image.attached?
+      question_attrs.delete(:image_attachment_attributes)
     end
   end
 end

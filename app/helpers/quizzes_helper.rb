@@ -28,16 +28,15 @@ module QuizzesHelper
   # @param quiz [Quiz]
   # @return [String] HTML safe list item with link to quiz show page
   def quizzes_list_item(quiz:)
-    tag.li(class: "list-group-item w-50 mx-auto rounded position-relative d-flex align-items-center pe-5") do
+    tag.li(class: 'list-group-item w-50 mx-auto rounded position-relative d-flex align-items-center pe-5') do
       safe_join([
-                  link_to(quiz.name, quiz_path(quiz), class: "text-decoration-none text-dark flex-grow-1"),
-                  button_to("🧨", quiz_path(quiz),
+                  link_to(quiz.name, quiz_path(quiz), class: 'text-decoration-none text-dark flex-grow-1'),
+                  button_to('🧨', quiz_path(quiz),
                             method: :delete,
                             data: { turbo_confirm: t('buttons.confirm.message') },
-                            form: { class: "position-absolute end-0 me-3" },
-                            class: "btn btn-link p-0 m-0 text-danger fs-4 text-decoration-none",
-                            title: t('buttons.destroy')
-                  )
+                            form: { class: 'position-absolute end-0 me-3' },
+                            class: 'btn btn-link p-0 m-0 text-danger fs-4 text-decoration-none',
+                            title: t('buttons.destroy'))
                 ])
     end
   end
