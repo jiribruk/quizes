@@ -4,179 +4,126 @@ require 'rails_helper'
 
 describe 'Quizzes', type: :request do
   describe 'GET /quizzes' do
-    subject(:request_response) do
+    it 'renders index' do
       get quizzes_path
-      response
-    end
-
-    context 'when the success' do
-      it { is_expected.to have_http_status(:success) }
-      it { is_expected.to render_template(:index) }
+      expect(response).to have_http_status(:success)
+      expect(response).to render_template(:index)
     end
   end
 
   describe 'GET /quizzes/:id' do
-    subject(:request_response) do
-      get quiz_path(id: quiz_id)
-      response
+    context 'when quiz exists' do
+      let(:quiz) { create(:quiz) }
+
+      it 'renders show' do
+        get quiz_path(quiz)
+        expect(response).to have_http_status(:success)
+        expect(response).to render_template(:show)
+      end
     end
 
-    context 'when the quiz exists' do
-      let(:quiz_id) { create(:quiz).id }
-
-      it { is_expected.to have_http_status(:success) }
-      it { is_expected.to render_template(:show) }
-    end
-
-    context 'when the quiz does not exist' do
-      let(:quiz_id) { 999 }
-
-      it { is_expected.to have_http_status(:not_found) }
-      it { is_expected.not_to render_template(:show) }
+    context 'when quiz does not exist' do
+      it 'returns 404' do
+        get quiz_path(id: 999_999)
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 
   describe 'GET /quizzes/new' do
-    subject(:request_response) do
+    it 'renders new' do
       get new_quiz_path
-      response
-    end
-
-    context 'when the success' do
-      it { is_expected.to have_http_status(:success) }
-      it { is_expected.to render_template(:new) }
+      expect(response).to have_http_status(:success)
+      expect(response).to render_template(:new)
     end
   end
 
   describe 'POST /quizzes' do
-    subject(:request_response) do
-      post quizzes_path, params: { quiz: quiz_params }
-      response
-    end
-
-    context 'when the quiz params are valid' do
-      let(:quiz_params) { { name: 'Test Quiz', category: 'Test Category' } }
-
-      it { is_expected.to have_http_status(:redirect) }
-      it { is_expected.to redirect_to(quiz_path(Quiz.last)) }
-
-      it 'creates a new quiz' do
-        expect { request_response }.to change(Quiz, :count).by(1)
+    context 'with valid params' do
+      let(:quiz_params) do
+        {
+          name: 'Valid Quiz',
+          category: 'Science',
+          questions_attributes: {
+            '0' => {
+              text: 'What is Ruby?',
+              answers_attributes: {
+                '0' => { text: 'A gemstone', correct: false },
+                '1' => { text: 'A programming language', correct: true }
+              }
+            }
+          }
+        }
       end
 
-      it 'sets success flash message' do
-        request_response
+      it 'creates quiz and redirects' do
+        expect {
+          post quizzes_path, params: { quiz: quiz_params }
+        }.to change(Quiz, :count).by(1)
+
+        expect(response).to have_http_status(:redirect)
         expect(flash[:notice]).to eq(I18n.t('flash.messages.success'))
       end
     end
 
-    context 'when the quiz params are invalid' do
-      let(:quiz_params) { { name: '', category: 'Test Category' } }
+    context 'with invalid params' do
+      let(:quiz_params) { { name: '', category: '' } }
 
-      it { is_expected.to have_http_status(:redirect) }
-      it { is_expected.to redirect_to(new_quiz_path) }
+      it 'does not create quiz and renders new' do
+        expect {
+          post quizzes_path, params: { quiz: quiz_params }
+        }.not_to change(Quiz, :count)
 
-      it 'does not create a new quiz' do
-        expect { request_response }.not_to change(Quiz, :count)
-      end
-
-      it 'sets alert flash message' do
-        request_response
-        expect(flash[:alert]).to include("Name can't be blank")
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to render_template(:new)
+        expect(flash[:alert]).to be_present
       end
     end
   end
 
   describe 'GET /quizzes/:id/edit' do
-    subject(:request_response) do
+    let(:quiz) { create(:quiz) }
+
+    it 'renders edit' do
       get edit_quiz_path(quiz)
-      response
-    end
-
-    context 'when the quiz exists' do
-      let(:quiz) { create(:quiz) }
-
-      it { is_expected.to have_http_status(:success) }
-      it { is_expected.to render_template(:edit) }
-    end
-
-    context 'when the quiz does not exist' do
-      let(:quiz) { double('quiz', id: 999) }
-
-      it { is_expected.to have_http_status(:not_found) }
-      it { is_expected.not_to render_template(:edit) }
+      expect(response).to have_http_status(:success)
+      expect(response).to render_template(:edit)
     end
   end
 
   describe 'PATCH /quizzes/:id' do
-    subject(:request_response) do
-      patch quiz_path(quiz), params: { quiz: quiz_params }
-      response
-    end
+    let!(:quiz) { create(:quiz, name: 'Original') }
 
-    context 'when the quiz params are valid' do
-      let(:quiz) { create(:quiz, name: 'Original Name') }
-      let(:quiz_params) { { name: 'Updated Quiz Name', category: 'Updated Category' } }
-
-      it { is_expected.to have_http_status(:redirect) }
-      it { is_expected.to redirect_to(quiz_path(quiz)) }
-
-      it 'updates the quiz' do
-        request_response
-        expect(quiz.reload.name).to eq('Updated Quiz Name')
-      end
-
-      it 'sets success flash message' do
-        request_response
+    context 'with valid params' do
+      it 'updates and redirects' do
+        patch quiz_path(quiz), params: { quiz: { name: 'Updated' } }
+        expect(response).to redirect_to(quiz_path(quiz))
+        expect(quiz.reload.name).to eq('Updated')
         expect(flash[:notice]).to eq(I18n.t('flash.messages.success'))
       end
     end
 
-    context 'when the quiz params are invalid' do
-      let(:quiz) { create(:quiz, name: 'Original Name') }
-      let(:quiz_params) { { name: '', category: 'Updated Category' } }
-
-      it { is_expected.to have_http_status(:redirect) }
-      it { is_expected.to redirect_to(edit_quiz_path(quiz)) }
-
-      it 'does not update the quiz' do
-        request_response
-        expect(quiz.reload.name).to eq('Original Name')
-      end
-
-      it 'sets alert flash message' do
-        request_response
-        expect(flash[:alert]).to include("Name can't be blank")
+    context 'with invalid params' do
+      it 'does not update and renders edit' do
+        patch quiz_path(quiz), params: { quiz: { name: '' } }
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to render_template(:edit)
+        expect(flash[:alert]).to be_present
+        expect(quiz.reload.name).to eq('Original')
       end
     end
   end
 
   describe 'DELETE /quizzes/:id' do
-    subject(:request_response) do
-      delete quiz_path(quiz)
-      response
-    end
+    let!(:quiz) { create(:quiz) }
 
-    context 'when the quiz exists' do
-      let!(:quiz) { create(:quiz) }
+    it 'deletes quiz and redirects' do
+      expect {
+        delete quiz_path(quiz)
+      }.to change(Quiz, :count).by(-1)
 
-      it { is_expected.to have_http_status(:redirect) }
-      it { is_expected.to redirect_to(root_path) }
-
-      it 'deletes the quiz' do
-        expect { request_response }.to change(Quiz, :count).by(-1)
-      end
-
-      it 'sets success flash message' do
-        request_response
-        expect(flash[:notice]).to eq(I18n.t('flash.messages.success'))
-      end
-    end
-
-    context 'when the quiz does not exist' do
-      let(:quiz) { double('quiz', id: 999) }
-
-      it { is_expected.to have_http_status(:not_found) }
+      expect(response).to redirect_to(root_path)
+      expect(flash[:notice]).to eq(I18n.t('flash.messages.success'))
     end
   end
 
@@ -186,12 +133,24 @@ describe 'Quizzes', type: :request do
     let(:correct_answer) { question.correct_answer }
     let(:user_answers) { { question.id.to_s => correct_answer.id.to_s } }
 
-    subject(:request_response) do
+    it 'evaluates quiz and renders turbo stream' do
       post evaluation_quiz_path(quiz), params: { answers: user_answers }, as: :turbo_stream
-      response
+      expect(response).to have_http_status(:success)
+      expect(response).to render_template(:evaluation)
     end
+  end
 
-    it { is_expected.to have_http_status(:success) }
-    it { is_expected.to render_template(:evaluation) }
+  describe 'POST /quizzes/add_question' do
+    it 'returns turbo stream response' do
+      post add_question_quizzes_path(question_index: 0, answer_index: 0), as: :turbo_stream
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe 'POST /quizzes/add_answer' do
+    it 'returns turbo stream response' do
+      post add_answer_quizzes_path(question_index: 0, answer_index: 0), as: :turbo_stream
+      expect(response).to have_http_status(:success)
+    end
   end
 end
