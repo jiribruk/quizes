@@ -57,9 +57,9 @@ describe 'Quizzes', type: :request do
       end
 
       it 'creates quiz and redirects' do
-        expect {
+        expect do
           post quizzes_path, params: { quiz: quiz_params }
-        }.to change(Quiz, :count).by(1)
+        end.to change(Quiz, :count).by(1)
 
         expect(response).to have_http_status(:redirect)
         expect(flash[:notice]).to eq(I18n.t('flash.messages.success'))
@@ -70,9 +70,9 @@ describe 'Quizzes', type: :request do
       let(:quiz_params) { { name: '', category: '' } }
 
       it 'does not create quiz and renders new' do
-        expect {
+        expect do
           post quizzes_path, params: { quiz: quiz_params }
-        }.not_to change(Quiz, :count)
+        end.not_to change(Quiz, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response).to render_template(:new)
@@ -118,9 +118,9 @@ describe 'Quizzes', type: :request do
     let!(:quiz) { create(:quiz) }
 
     it 'deletes quiz and redirects' do
-      expect {
+      expect do
         delete quiz_path(quiz)
-      }.to change(Quiz, :count).by(-1)
+      end.to change(Quiz, :count).by(-1)
 
       expect(response).to redirect_to(root_path)
       expect(flash[:notice]).to eq(I18n.t('flash.messages.success'))
