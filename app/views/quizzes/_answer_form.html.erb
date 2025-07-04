@@ -4,7 +4,7 @@
       <%= text_field_tag "quiz[questions_attributes][#{question_index}][answers_attributes][#{answer_index}][text]",
                          answer.text,
                          class: "form-control",
-                         placeholder: "Zadejte text odpovědi" %>
+                         placeholder: t("placeholders.answer_text") %>
     </div>
     <div class="col-md-3">
       <div class="form-check">
@@ -13,16 +13,16 @@
                           answer.correct,
                           class: "form-check-input" %>
         <%= label_tag "quiz[questions_attributes][#{question_index}][answers_attributes][#{answer_index}][correct]",
-                      "Správná odpověď",
+                      t("labels.correct_answer"),
                       class: "form-check-label" %>
         <%= hidden_field_tag "quiz[questions_attributes][#{question_index}][answers_attributes][#{answer_index}][id]", answer.id if answer.persisted? %>
       </div>
     </div>
     <div class="col-md-1">
       <button type="button" class="btn btn-outline-danger btn-sm remove-answer-btn" data-action="quizzes#remove">
-        <i class="bi bi-x"></i>
+        <i class="bi bi-x" title=" <%= t("buttons.remove_answer") %>"></i>
       </button>
     </div>
   </div>
   <%= hidden_field_tag "quiz[questions_attributes][#{question_index}][answers_attributes][#{answer_index}][_destroy]", "false", data: { quizzes_target: "destroyField" } %>
-</div> 
+</div>

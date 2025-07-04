@@ -20,7 +20,7 @@ describe Question, type: :model do
         let(:answer_b) { build(:answer, correct: false) }
 
         it { is_expected.not_to be_valid }
-        it { expect(question.errors[:base]).to include(I18n.t('valiation_errors.exactly_one_correct_answer')) }
+        it { expect(question.errors[:base]).to include(I18n.t('validation_errors.exactly_one_correct_answer')) }
       end
 
       context 'when more than one answer is correct' do
@@ -28,7 +28,7 @@ describe Question, type: :model do
         let(:answer_b) { build(:answer, correct: true) }
 
         it { is_expected.not_to be_valid }
-        it { expect(question.errors[:base]).to include(I18n.t('valiation_errors.exactly_one_correct_answer')) }
+        it { expect(question.errors[:base]).to include(I18n.t('validation_errors.exactly_one_correct_answer')) }
       end
 
       context 'when exactly one answer is correct' do

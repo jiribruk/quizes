@@ -1,53 +1,48 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
+  helpers:
+    submit:
+      quiz:
+        create: "Create Quiz"
+        update: "Update Quiz"
+  titles:
+    quiz_form: "Basic Quiz Information"
+    questions_section: "Questions"
+    answers_section: "Answers"
+    question_number: "Question %{number}"
+
+  labels:
+    quiz_name: "Quiz Name"
+    category: "Category"
+    question_text: "Question Text"
+    question_image: "Question Image"
+    correct_answer: "Correct Answer"
+
+  placeholders:
+    quiz_name: "Enter the name of the quiz"
+    category: "Enter category"
+    question_text: "Enter question text"
+    answer_text: "Enter answer text"
+
   buttons:
-    home: "Home"
-    submit: "Submit Answers"
-    new_quiz: New Quiz
-    confirm:
-      message: Are you sure?
-    destroy: Destroy
-    edit: Edit
-  valiation_errors:
+    add_question: "Add Question"
+    add_answer: "Add Answer"
+    remove_question: "Remove"
+    remove_answer: "Remove"
+    delete_image: "Delete Image"
+
+  flash:
+    messages:
+      success: "Success"
+      failed: "Failed"
+
+  validation_errors:
     exactly_one_correct_answer: "Exactly one answer must be correct."
+
   quiz:
-    score: "Your score is %{score}/%{questions_count}" 
+    score: "Your score is %{score}/%{questions_count}"
     category:
       movies: "Movies"
       companies: "Companies"
       others: "Others"
     index:
       title: "List of Quizzes"
-  flash:
-    messages:
-      success: Success
-      failed: Failed
-

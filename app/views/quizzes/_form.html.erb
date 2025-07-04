@@ -2,17 +2,17 @@
   <!-- Quiz basic info -->
   <div class="card mb-4">
     <div class="card-header">
-      <h5 class="card-title mb-0">Základní informace o kvízu</h5>
+      <h5 class="card-title mb-0"><%= t("titles.quiz_form") %></h5>
     </div>
     <div class="card-body">
       <div class="row">
         <div class="col-md-6 mb-3">
-          <%= form.label :name, "Název kvízu", class: "form-label fw-bold" %>
-          <%= form.text_field :name, class: "form-control", placeholder: "Zadejte název kvízu" %>
+          <%= form.label :name, t("labels.quiz_name"), class: "form-label fw-bold" %>
+          <%= form.text_field :name, class: "form-control", placeholder: t("placeholders.quiz_name") %>
         </div>
         <div class="col-md-6 mb-3">
-          <%= form.label :category, "Kategorie", class: "form-label fw-bold" %>
-          <%= form.text_field :category, class: "form-control", placeholder: "Zadejte kategorii" %>
+          <%= form.label :category, t("labels.category"), class: "form-label fw-bold" %>
+          <%= form.text_field :category, class: "form-control", placeholder: t("placeholders.category") %>
         </div>
       </div>
     </div>
@@ -21,7 +21,7 @@
   <!-- Questions section -->
   <div class="card mb-4">
     <div class="card-header d-flex justify-content-between align-items-center">
-      <h5 class="card-title mb-0">Otázky</h5>
+      <h5 class="card-title mb-0"><%= t("titles.questions_section") %></h5>
     </div>
     <div class="card-body">
       <div id="questions-container">
@@ -41,7 +41,7 @@
                   turbo_method: :post,
                   turbo_stream: true,
                 } do %>
-      <i class="bi bi-plus-circle"></i> Přidat otázku
+      <i class="bi bi-plus-circle"></i> <%= t("buttons.add_question") %>
     <% end %>
     <%= form.submit class: "btn btn-primary btn-lg" %>
   </div>

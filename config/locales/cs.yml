@@ -1,0 +1,51 @@
+cs:
+  helpers:
+    submit:
+      quiz:
+        create: "Vytvořit kvíz"
+        update: "Upravit kvíz"
+  titles:
+    quiz_form: "Základní informace o kvízu"
+    questions_section: "Otázky"
+    answers_section: "Odpovědi"
+    question_number: "Otázka %{number}"
+
+  labels:
+    quiz_name: "Název kvízu"
+    category: "Kategorie"
+    question_text: "Text otázky"
+    question_image: "Obrázek otázky"
+    correct_answer: "Správná odpověď"
+
+  placeholders:
+    quiz_name: "Zadejte název kvízu"
+    category: "Zadejte kategorii"
+    question_text: "Zadejte text otázky"
+    answer_text: "Zadejte text odpovědi"
+
+  buttons:
+    add_question: "Přidat otázku"
+    add_answer: "Přidat odpověď"
+    remove_question: "Odstranit"
+    remove_answer: "Odstranit"
+    delete_image: "Smazat obrázek"
+    new_quiz: "Nový kvíz"
+    home: "Domů"
+    submit: "Vyhodnotit"
+
+  flash:
+    messages:
+      success: "Úspěch"
+      failed: "Chyba"
+
+  validation_errors:
+    exactly_one_correct_answer: "Musí být právě jedna správná odpověď."
+
+  quiz:
+    score: "Tvůj skóre je %{score}/%{questions_count}"
+    category:
+      movies: "Filmy"
+      companies: "Firmy"
+      others: "Ostatní"
+    index:
+      title: "Seznam kvízů"
