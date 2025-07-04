@@ -26,12 +26,20 @@
                        } %>
 
     <div class="mt-2">
-      <img class="img-thumbnail d-none" style="max-width: 150px;" data-quizzes-target="preview">
+      <img class="img-thumbnail d-none" style="max-width: <%= Question::IMAGE_SIZE %>px;" data-quizzes-target="preview">
     </div>
 
     <% if question.image.attached? %>
-      <div class="mt-2">
-        <%= image_tag url_for(question.image), class: "img-thumbnail", style: "max-width: 150px; height: auto;" if question.image.attached? %>
+      <div class="mt-2" data-quizzes-target="imageWrapper" id="image_wrapper_<%= question_index %>">
+        <%= image_tag url_for(question.image), class: "img-thumbnail", style: "max-width: #{Question::IMAGE_SIZE}px;" %>
+        <button type="button" class="btn btn-outline-danger btn-sm ms-2" data-action="click->quizzes#removeImage" data-quizzes-question-index="<%= question_index %>">
+          <i class="bi bi-trash"></i> Smazat obrázek
+        </button>
+
+        <%= hidden_field_tag "quiz[questions_attributes][#{question_index}][image_attachment_attributes][_destroy]",
+                             "0",
+                             data: { quizzes_target: "destroyImageField" },
+                             id: "destroy_image_field_#{question_index}" %>
       </div>
     <% end %>
 

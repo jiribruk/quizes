@@ -2,6 +2,8 @@
 
 # Question represents a question in a quiz.
 class Question < ApplicationRecord
+  IMAGE_SIZE = 250
+
   has_many :answers, inverse_of: :question, dependent: :destroy
 
   has_one_attached :image, dependent: :destroy
@@ -9,6 +11,7 @@ class Question < ApplicationRecord
   belongs_to :quiz, inverse_of: :questions, optional: false
 
   accepts_nested_attributes_for :answers, allow_destroy: true
+  accepts_nested_attributes_for :image_attachment, allow_destroy: true
 
   validates_presence_of :text
   validate :exactly_one_correct_answer
