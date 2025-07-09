@@ -2,7 +2,13 @@
 
 require 'rails_helper'
 
+# Request specs for QuizzesController covering all CRUD operations
+# and dynamic form functionality with Turbo Streams
+#
+# @see QuizzesController
 describe 'Quizzes', type: :request do
+  # GET /quizzes
+  # Tests the index action that displays all quizzes grouped by category
   describe 'GET /quizzes' do
     it 'renders index' do
       get quizzes_path
@@ -11,6 +17,8 @@ describe 'Quizzes', type: :request do
     end
   end
 
+  # GET /quizzes/:id
+  # Tests the show action that displays a specific quiz with its questions and answers
   describe 'GET /quizzes/:id' do
     context 'when quiz exists' do
       let(:quiz) { create(:quiz) }
@@ -30,6 +38,8 @@ describe 'Quizzes', type: :request do
     end
   end
 
+  # GET /quizzes/new
+  # Tests the new action that displays form for creating a new quiz
   describe 'GET /quizzes/new' do
     it 'renders new' do
       get new_quiz_path
@@ -38,6 +48,8 @@ describe 'Quizzes', type: :request do
     end
   end
 
+  # POST /quizzes
+  # Tests the create action with nested attributes for questions and answers
   describe 'POST /quizzes' do
     context 'with valid params' do
       let(:quiz_params) do
@@ -81,6 +93,8 @@ describe 'Quizzes', type: :request do
     end
   end
 
+  # GET /quizzes/:id/edit
+  # Tests the edit action that displays form for editing an existing quiz
   describe 'GET /quizzes/:id/edit' do
     let(:quiz) { create(:quiz) }
 
@@ -91,6 +105,8 @@ describe 'Quizzes', type: :request do
     end
   end
 
+  # PATCH /quizzes/:id
+  # Tests the update action with nested attributes and image handling
   describe 'PATCH /quizzes/:id' do
     let!(:quiz) { create(:quiz, name: 'Original') }
 
@@ -114,6 +130,8 @@ describe 'Quizzes', type: :request do
     end
   end
 
+  # DELETE /quizzes/:id
+  # Tests the destroy action that deletes a quiz and all its associations
   describe 'DELETE /quizzes/:id' do
     let!(:quiz) { create(:quiz) }
 
@@ -127,6 +145,8 @@ describe 'Quizzes', type: :request do
     end
   end
 
+  # POST /quizzes/:id/evaluation
+  # Tests the evaluation action that evaluates user answers against the quiz
   describe 'POST /quizzes/:id/evaluation' do
     let(:quiz) { create(:quiz, :with_questions_and_answers) }
     let(:question) { quiz.questions.first }
@@ -140,6 +160,8 @@ describe 'Quizzes', type: :request do
     end
   end
 
+  # POST /quizzes/add_question
+  # Tests the add_question action that adds a new question form dynamically
   describe 'POST /quizzes/add_question' do
     it 'returns turbo stream response' do
       post add_question_quizzes_path(question_index: 0, answer_index: 0), as: :turbo_stream
@@ -147,6 +169,8 @@ describe 'Quizzes', type: :request do
     end
   end
 
+  # POST /quizzes/add_answer
+  # Tests the add_answer action that adds a new answer form dynamically
   describe 'POST /quizzes/add_answer' do
     it 'returns turbo stream response' do
       post add_answer_quizzes_path(question_index: 0, answer_index: 0), as: :turbo_stream
