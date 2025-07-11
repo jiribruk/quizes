@@ -16,9 +16,6 @@ Capybara.configure do |config|
 
   # Enable automatic waiting for elements
   config.automatic_reload = true
-
-  # Set server timeout
-  config.server_timeout = 30
 end
 
 # Configure Selenium WebDriver
