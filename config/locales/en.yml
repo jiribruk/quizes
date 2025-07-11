@@ -24,6 +24,7 @@ en:
     answer_text: "Enter answer text"
 
   buttons:
+    home: "Home"
     add_question: "Add Question"
     add_answer: "Add Answer"
     remove_question: "Remove"
