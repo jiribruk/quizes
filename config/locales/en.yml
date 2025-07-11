@@ -29,6 +29,7 @@ en:
     remove_question: "Remove"
     remove_answer: "Remove"
     delete_image: "Delete Image"
+    submit: "Evaluate"
 
   flash:
     messages:
