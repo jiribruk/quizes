@@ -1,0 +1,13 @@
+<%= turbo_stream.append "questions-container" do %>
+  <%= render partial: 'question_form', locals: { question_index: @indexes.question_index, answer_index: @indexes.answer_index, question: @question } %>
+<% end %>
+<%= turbo_stream.replace "add_question_button" do %>
+  <%= link_to add_question_quizzes_path(question_index: @indexes.question_index),
+              class: "btn btn-success btn-sm",
+              id: "add_question_button",
+              data: {
+                turbo_method: :post,
+                turbo_stream: true,
+              } do %><i class="bi bi-plus-circle"></i> <%= t("buttons.add_question") %>
+  <% end %>
+<% end %>

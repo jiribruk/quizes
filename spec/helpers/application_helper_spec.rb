@@ -12,7 +12,7 @@ describe ApplicationHelper, type: :helper do
     subject(:navbar) { top_navbar }
 
     it { is_expected.to have_selector('nav.navbar.border-bottom') }
-    it { is_expected.to have_link('Home', href: root_path) }
+    it { is_expected.to have_link(t('buttons.home'), href: root_path) }
     it { is_expected.to have_selector('nav[style*="#FFA500"]') }
   end
 end

@@ -1,0 +1,72 @@
+<div class="question-item border rounded p-3 mb-3" data-controller="quizzes" id="question_id_<%= question_index %>">
+  <div class="d-flex justify-content-between align-items-start mb-3">
+    <h6 class="mb-0"><%= t("titles.question_number", number: question_index + 1) %></h6>
+    <button type="button" class="btn btn-outline-danger btn-sm remove-question-btn" data-action="quizzes#remove">
+      <i class="bi bi-trash" title="<%= t("buttons.remove_question") %>"></i>
+    </button>
+  </div>
+
+  <div class="mb-3">
+    <%= label_tag "quiz[questions_attributes][#{question_index}][text]",
+                  t("labels.question_text"),
+                  class: "form-label fw-bold" %>
+    <%= text_area_tag "quiz[questions_attributes][#{question_index}][text]",
+                      question.text, class: "form-control",
+                      rows: 3,
+                      placeholder: t("placeholders.question_text") %>
+
+    <%= label_tag "quiz[questions_attributes][#{question_index}][image]",
+                  t("labels.question_image"),
+                  class: "form-label fw-bold mt-3" %>
+    <%= file_field_tag "quiz[questions_attributes][#{question_index}][image]",
+                       direct_upload: true,
+                       class: "form-control",
+                       data: {
+                         action: "change->quizzes#previewImage",
+                         quizzes_target: "fileInput"
+                       } %>
+
+    <div class="mt-2">
+      <img class="img-thumbnail d-none" style="max-width: <%= Question::IMAGE_SIZE %>px;" data-quizzes-target="preview">
+    </div>
+
+    <% if question.image.attached? %>
+      <div class="mt-2" data-quizzes-target="imageWrapper" id="image_wrapper_<%= question_index %>">
+        <%= image_tag url_for(question.image), class: "img-thumbnail", style: "max-width: #{Question::IMAGE_SIZE}px;" %>
+        <button type="button" class="btn btn-outline-danger btn-sm ms-2" data-action="click->quizzes#removeImage" data-quizzes-question-index="<%= question_index %>">
+          <i class="bi bi-trash"></i> <%= t("buttons.delete_image") %>
+        </button>
+
+        <%= hidden_field_tag "quiz[questions_attributes][#{question_index}][image_attachment_attributes][_destroy]",
+                             "0",
+                             data: { quizzes_target: "destroyImageField" },
+                             id: "destroy_image_field_#{question_index}" %>
+      </div>
+    <% end %>
+
+    <%= hidden_field_tag "quiz[questions_attributes][#{question_index}][id]", question.id if question.persisted? %>
+    <%= hidden_field_tag "quiz[questions_attributes][#{question_index}][_destroy]", "false", data: { quizzes_target: "destroyField" } %>
+  </div>
+
+  <!-- Answers section -->
+  <div class="answers-section">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h6 class="mb-0"><%= t("titles.answers_section") %></h6>
+      <%= link_to add_answer_quizzes_path(question_index: question_index, answer_index: answer_index || question.answers.index.max),
+                  class: "btn btn-outline-primary btn-sm add-answer-btn",
+                  id: "add_answer_button_for_question_#{question_index}",
+                  data: {
+                    turbo_method: :post,
+                    turbo_stream: true,
+                  } do %>
+        <i class="bi bi-plus-circle"></i> <%= t("buttons.add_answer") %>
+      <% end %>
+    </div>
+
+    <div class="answers-container" id="answers-container-for-question<%= "#{question_index}" %>">
+      <% question.answers.each_with_index do |answer, index| %>
+        <%= render partial: 'answer_form', locals: { question_index: question_index, answer_index: answer_index || index, answer: answer } %>
+      <% end %>
+    </div>
+  </div>
+</div>
