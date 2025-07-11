@@ -8,42 +8,42 @@ RSpec.feature 'Quiz Evaluation', type: :feature do
 
     let!(:question1) do
       create(:question, quiz: quiz, text: 'What is 2+2?', answers: [
-               answer1_1,
-               answer1_2,
-               answer1_3
+               answer_one_one,
+               answer_one_two,
+               answer_one_three
              ])
     end
 
     let!(:question2) do
       create(:question, quiz: quiz, text: 'What is 3x3?', answers: [
-               answer2_1,
-               answer2_2,
-               answer2_3
+               answer_two_one,
+               answer_two_two,
+               answer_two_three
              ])
     end
 
     let!(:question3) do
       create(:question, quiz: quiz, text: 'What is 10-5?', answers: [
-               answer3_1,
-               answer3_2,
-               answer3_3
+               answer_three_one,
+               answer_three_two,
+               answer_three_three
              ])
     end
 
     # Question 1 answers
-    let(:answer1_1) { build(:answer, text: '3', correct: false) }
-    let(:answer1_2) { build(:answer, text: '4', correct: true) } # correct answer for question 1
-    let(:answer1_3) { build(:answer, text: '5', correct: false) }
+    let(:answer_one_one) { build(:answer, text: '3', correct: false) }
+    let(:answer_one_two) { build(:answer, text: '4', correct: true) } # correct answer for question 1
+    let(:answer_one_three) { build(:answer, text: '5', correct: false) }
 
     # Question 2 answers
-    let(:answer2_1) { build(:answer, text: '6', correct: false) }
-    let(:answer2_2) { build(:answer, text: '9', correct: true) } # correct answer for question 2
-    let(:answer2_3) { build(:answer, text: '12', correct: false) }
+    let(:answer_two_one) { build(:answer, text: '6', correct: false) }
+    let(:answer_two_two) { build(:answer, text: '9', correct: true) } # correct answer for question 2
+    let(:answer_two_three) { build(:answer, text: '12', correct: false) }
 
     # Question 3 answers
-    let(:answer3_1) { build(:answer, text: '3', correct: false) } # incorrect answer for question 3
-    let(:answer3_2) { build(:answer, text: '5', correct: true) }
-    let(:answer3_3) { build(:answer, text: '7', correct: false) }
+    let(:answer_three_one) { build(:answer, text: '3', correct: false) } # incorrect answer for question 3
+    let(:answer_three_two) { build(:answer, text: '5', correct: true) }
+    let(:answer_three_three) { build(:answer, text: '7', correct: false) }
 
     scenario 'user selects a quiz, answers questions, and sees evaluation results', js: true do
       # When: User visits the quiz overview page
@@ -73,11 +73,11 @@ RSpec.feature 'Quiz Evaluation', type: :feature do
 
       # When: User selects answers (2 correct, 1 incorrect)
       # Question 1: Correct answer (4)
-      choose "answer_#{answer1_2.id}"
+      choose "answer_#{answer_one_two.id}"
       # Question 2: Correct answer (9)
-      choose "answer_#{answer2_2.id}"
+      choose "answer_#{answer_two_two.id}"
       # Question 3: Incorrect answer (3 instead of 5)
-      choose "answer_#{answer3_1.id}"
+      choose "answer_#{answer_three_one.id}"
 
       # And: User clicks on evaluation button
       click_button I18n.t('buttons.submit')
@@ -86,12 +86,12 @@ RSpec.feature 'Quiz Evaluation', type: :feature do
       expect(page).to have_content(I18n.t('quiz.score', score: 2, questions_count: 3))
 
       # And: User sees checkmarks (✅) for correct answers
-      expect(page).to have_css("span[id='answer_#{answer1_2.id}_marker']")
-      expect(page).to have_css("span[id='answer_#{answer2_2.id}_marker']")
+      expect(page).to have_css("span[id='answer_#{answer_one_two.id}_marker']")
+      expect(page).to have_css("span[id='answer_#{answer_two_two.id}_marker']")
       expect(page).to have_content('✅')
 
       # And: User sees crosses (❌) for incorrect answers
-      expect(page).to have_css("span[id='answer_#{answer3_1.id}_marker']")
+      expect(page).to have_css("span[id='answer_#{answer_three_one.id}_marker']")
       expect(page).to have_content('❌')
 
       # And: Submit button is removed after evaluation
