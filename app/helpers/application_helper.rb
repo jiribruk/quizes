@@ -27,6 +27,8 @@ module ApplicationHelper
                         title: t('users.navbar.signed_in_as', name: current_user.display_name))
               end +
               tag.div(class: 'd-flex') do
+                tag.a(t('user_groups.index.title'), class: 'btn btn-outline-dark btn-sm me-2', 
+                      href: user_groups_path) +
                 tag.a(t('users.navbar.edit_profile'), class: 'btn btn-outline-dark btn-sm me-2', 
                       href: edit_user_registration_path) +
                 tag.a(t('devise.sessions.signed_out'), class: 'btn btn-outline-dark btn-sm', 

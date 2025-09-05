@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateVisibility() {
     if (privateSwitch && privateSwitch.checked) {
       // Private mode
-      userGroupsSection.style.display = 'block';
-      publicWarning.style.display = 'none';
+      if (userGroupsSection) userGroupsSection.style.display = 'block';
+      if (publicWarning) publicWarning.style.display = 'none';
       if (publicDescription) publicDescription.style.display = 'none';
       if (privateDescription) privateDescription.style.display = 'inline';
       if (lockIcon) {
@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     } else {
       // Public mode
-      userGroupsSection.style.display = 'none';
-      publicWarning.style.display = 'block';
+      if (userGroupsSection) userGroupsSection.style.display = 'none';
+      if (publicWarning) publicWarning.style.display = 'block';
       if (publicDescription) publicDescription.style.display = 'inline';
       if (privateDescription) privateDescription.style.display = 'none';
       if (lockIcon) {

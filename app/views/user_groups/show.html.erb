@@ -1,0 +1,117 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">
+          <i class="bi bi-people-fill text-primary me-2"></i>
+          <%= t('user_groups.show.title', name: @user_group.name) %>
+        </h1>
+        <div class="btn-group">
+          <%= link_to edit_user_group_path(@user_group), class: "btn btn-outline-primary" do %>
+            <i class="bi bi-pencil me-1"></i>
+            <%= t('user_groups.buttons.edit_group') %>
+          <% end %>
+          <%= link_to user_group_path(@user_group), 
+                      method: :delete,
+                      class: "btn btn-outline-danger",
+                      data: { 
+                        confirm: t('user_groups.confirm_delete'),
+                        turbo_method: :delete
+                      } do %>
+            <i class="bi bi-trash me-1"></i>
+            <%= t('user_groups.buttons.delete_group') %>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <% if @user_group.description.present? %>
+        <div class="alert alert-info">
+          <i class="bi bi-info-circle me-2"></i>
+          <%= @user_group.description %>
+        </div>
+      <% end %>
+
+      <div class="row">
+        <!-- Members Section -->
+        <div class="col-md-6 mb-4">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title mb-0">
+                <i class="bi bi-person-check me-2"></i>
+                <%= t('user_groups.show.members') %>
+                <span class="badge bg-primary ms-2"><%= @members.count %></span>
+              </h5>
+            </div>
+            <div class="card-body">
+              <% if @members.any? %>
+                <div class="list-group list-group-flush">
+                  <% @members.each do |member| %>
+                    <div class="list-group-item d-flex align-items-center">
+                      <%= gravatar_image_tag(member.email, alt: member.display_name, class: "rounded-circle me-3", size: 32) %>
+                      <div>
+                        <div class="fw-semibold"><%= member.display_name %></div>
+                        <small class="text-muted"><%= member.email %></small>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="text-center text-muted py-3">
+                  <i class="bi bi-person-x" style="font-size: 2rem;"></i>
+                  <p class="mt-2 mb-0"><%= t('user_groups.show.no_members') %></p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shared Quizzes Section -->
+        <div class="col-md-6 mb-4">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title mb-0">
+                <i class="bi bi-question-square me-2"></i>
+                <%= t('user_groups.show.shared_quizzes') %>
+                <span class="badge bg-success ms-2"><%= @quizzes.count %></span>
+              </h5>
+            </div>
+            <div class="card-body">
+              <% if @quizzes.any? %>
+                <div class="list-group list-group-flush">
+                  <% @quizzes.each do |quiz| %>
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                      <div>
+                        <div class="fw-semibold"><%= quiz.name %></div>
+                        <small class="text-muted">
+                          <%= quiz.category %> • <%= quiz.user.display_name %>
+                        </small>
+                      </div>
+                      <%= link_to quiz_path(quiz), class: "btn btn-sm btn-outline-primary" do %>
+                        <i class="bi bi-eye"></i>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="text-center text-muted py-3">
+                  <i class="bi bi-question-square" style="font-size: 2rem;"></i>
+                  <p class="mt-2 mb-0"><%= t('user_groups.show.no_quizzes') %></p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Back Button -->
+      <div class="text-center mt-4">
+        <%= link_to user_groups_path, class: "btn btn-secondary" do %>
+          <i class="bi bi-arrow-left me-1"></i>
+          <%= t('user_groups.buttons.back_to_groups') %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

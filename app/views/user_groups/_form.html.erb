@@ -1,0 +1,50 @@
+<%= form_with(model: user_group, local: true, class: "needs-validation", novalidate: true) do |form| %>
+  <% if user_group.errors.any? %>
+    <div class="alert alert-danger">
+      <h6><%= t('user_groups.error_count', count: user_group.errors.count) %> <%= t('user_groups.errors.prevented_saving') %>:</h6>
+      <ul class="mb-0">
+        <% user_group.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :name, t('user_groups.form.name_label'), class: "form-label fw-bold required" %>
+    <%= form.text_field :name, 
+        class: "form-control #{'is-invalid' if user_group.errors[:name].any?}",
+        placeholder: t('user_groups.form.name_placeholder'),
+        required: true,
+        autofocus: true %>
+    <% if user_group.errors[:name].any? %>
+      <div class="invalid-feedback">
+        <%= user_group.errors[:name].first %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :description, t('user_groups.form.description_label'), class: "form-label fw-bold" %>
+    <%= form.text_area :description, 
+        class: "form-control #{'is-invalid' if user_group.errors[:description].any?}",
+        placeholder: t('user_groups.form.description_placeholder'),
+        rows: 3 %>
+    <% if user_group.errors[:description].any? %>
+      <div class="invalid-feedback">
+        <%= user_group.errors[:description].first %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <%= link_to user_groups_path, class: "btn btn-secondary me-md-2" do %>
+      <i class="bi bi-arrow-left me-1"></i>
+      <%= t('buttons.cancel') %>
+    <% end %>
+    <%= form.submit class: "btn btn-primary" do %>
+      <i class="bi bi-check-circle me-1"></i>
+      <%= user_group.persisted? ? t('helpers.submit.update') : t('helpers.submit.create') %>
+    <% end %>
+  </div>
+<% end %>

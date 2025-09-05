@@ -1,0 +1,17 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow">
+        <div class="card-header">
+          <h1 class="h4 mb-0">
+            <i class="bi bi-pencil text-primary me-2"></i>
+            <%= t('user_groups.edit.title') %>
+          </h1>
+        </div>
+        <div class="card-body">
+          <%= render 'form', user_group: @user_group %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

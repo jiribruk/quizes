@@ -27,7 +27,7 @@
                     <i class="bi bi-lock text-warning me-2"></i><%= t("labels.visibility") %>
                   </label>
                   <small class="form-text text-muted d-block" id="visibility-description">
-                    <span id="public-description" style="display: none;">
+                    <span id="public-description" style="display: inline;">
                       <%= t("quiz.visibility.public_description") %>
                     </span>
                     <span id="private-description" style="display: none;"><%= t("quiz.visibility.private_description") %></span>
@@ -75,7 +75,7 @@
       </div>
 
       <!-- Warning for public quizzes -->
-      <div class="row" id="public-warning" style="display: none;">
+      <div class="row" id="public-warning" style="display: block;">
         <div class="col-12">
           <div class="alert alert-warning">
             <i class="bi bi-exclamation-triangle"></i> <%= t("quiz.warnings.sensitive_data") %>

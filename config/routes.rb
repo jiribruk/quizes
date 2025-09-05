@@ -20,4 +20,6 @@ Rails.application.routes.draw do
       post :add_answer
     end
   end
+
+  resources :user_groups
 end
