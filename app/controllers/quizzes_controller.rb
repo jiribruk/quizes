@@ -5,12 +5,16 @@
 #
 # @see https://guides.rubyonrails.org/action_controller_overview.html
 class QuizzesController < ApplicationController
+ # before_action :authorize_quiz_access, only: [:show, :edit, :update, :destroy, :evaluation]
+  #before_action :authorize_quiz_ownership, only: [:edit, :update, :destroy]
+
   # GET /quizzes
-  # Displays all quizzes grouped by category
+  # Displays all quizzes visible to current user grouped by category
   #
   # @return [void]
   def index
-    @grouped_quizzes = Quiz.all.group_by(&:category)
+    @grouped_quizzes = Quiz.visible_to_user(current_user).group_by(&:category)
+    @user_groups = current_user.user_groups
 
     respond_to(&:html)
   end
@@ -21,7 +25,6 @@ class QuizzesController < ApplicationController
   # @return [void]
   def show
     quiz
-
     respond_to(&:html)
   end
 
@@ -30,10 +33,11 @@ class QuizzesController < ApplicationController
   #
   # @return [void]
   def new
-    @quiz = Quiz.new
+    @quiz = current_user.quizzes.build
     @quiz.questions.build
     @quiz.questions.first.answers.build
     @indexes = Indexes.new
+    @user_groups = current_user.user_groups
   end
 
   # POST /quizzes
@@ -41,13 +45,14 @@ class QuizzesController < ApplicationController
   #
   # @return [void]
   def create
-    @quiz = Quiz.new(quiz_params)
+    @quiz = current_user.quizzes.build(quiz_params)
     if @quiz.save
       flash[:notice] = t('flash.messages.success')
       redirect_to quiz_path(@quiz)
     else
+      @user_groups = current_user.user_groups
       flash[:alert] = @quiz.errors.full_messages.join(', ')
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -57,6 +62,7 @@ class QuizzesController < ApplicationController
   # @return [void]
   def edit
     quiz
+    @user_groups = current_user.user_groups
   end
 
   # PATCH/PUT /quizzes/:id
@@ -68,10 +74,11 @@ class QuizzesController < ApplicationController
     remove_image_from_question
     if quiz.update(quiz_params)
       flash[:notice] = t('flash.messages.success')
-      redirect_to quiz_path(quiz)
+      redirect_to quiz_path(@quiz)
     else
+      @user_groups = current_user.user_groups
       flash[:alert] = @quiz.errors.full_messages.join(', ')
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
@@ -90,7 +97,7 @@ class QuizzesController < ApplicationController
   #
   # @return [void]
   def evaluation
-    @result = EvaluateQuiz.call(quiz:, user_answers: params[:answers])
+    @result = EvaluateQuiz.call(quiz: quiz, user_answers: params[:answers])
 
     respond_to(&:turbo_stream)
   end
@@ -129,6 +136,26 @@ class QuizzesController < ApplicationController
     @quiz ||= Quiz.find(params[:id])
   end
 
+  # Authorizes access to quiz based on visibility rules
+  #
+  # @return [void]
+  def authorize_quiz_access
+    unless quiz.visible_to?(current_user)
+      flash[:alert] = t('quizzes.errors.access_denied')
+      redirect_to quizzes_path
+    end
+  end
+
+  # Authorizes quiz ownership for edit/update/destroy actions
+  #
+  # @return [void]
+  def authorize_quiz_ownership
+    unless quiz.user == current_user
+      flash[:alert] = t('quizzes.errors.ownership_required')
+      redirect_to quiz_path(quiz)
+    end
+  end
+
   # Creates or retrieves Indexes instance for managing form indexes
   #
   # @return [Indexes] the indexes instance
@@ -144,6 +171,8 @@ class QuizzesController < ApplicationController
     params.require(:quiz).permit(
       :name,
       :category,
+      :visibility,
+      user_group_ids: [],
       questions_attributes: [
         :id,
         :image,

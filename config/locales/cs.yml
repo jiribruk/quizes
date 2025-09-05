@@ -10,13 +10,6 @@ cs:
     answers_section: "Odpovědi"
     question_number: "Otázka %{number}"
 
-  labels:
-    quiz_name: "Název kvízu"
-    category: "Kategorie"
-    question_text: "Text otázky"
-    question_image: "Obrázek otázky"
-    correct_answer: "Správná odpověď"
-
   placeholders:
     quiz_name: "Zadejte název kvízu"
     category: "Zadejte kategorii"
@@ -49,6 +42,27 @@ cs:
       others: "Ostatní"
     index:
       title: "Seznam kvízů"
+    errors:
+      access_denied: "Nemáte oprávnění k zobrazení tohoto kvízu."
+      ownership_required: "Pouze vlastník může upravovat tento kvíz."
+    visibility:
+      public: "Veřejný"
+      private: "Soukromý"
+      public_description: "Viditelný všem uživatelům v aplikaci"
+      private_description: "Viditelný pouze vám a vybraným skupinám"
+    warnings:
+      sensitive_data: "⚠️ UPOZORNĚNÍ: Nepoužívejte veřejné kvízy pokud obshují citlivé informace!"
+      group_sensitive_data: "⚠️ UPOZORNĚNÍ: Pokud kvíz obsahuje citlivé informace, pozvěte pouze důvěryhodné uživatele!"
+    no_groups_message: "Nemáte vytvořené žádné skupiny. Vytvořte skupinu pro sdílení kvízů s ostatními uživateli."
+
+  labels:
+    quiz_name: "Název kvízu"
+    category: "Kategorie"
+    question_text: "Text otázky"
+    question_image: "Obrázek otázky"
+    correct_answer: "Správná odpověď"
+    visibility: "Viditelnost kvízu"
+    user_groups: "Sdílet se skupinami"
 
   users:
     navbar:

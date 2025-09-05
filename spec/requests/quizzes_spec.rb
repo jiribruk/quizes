@@ -175,7 +175,7 @@ describe 'Quizzes', type: :request do
       # GET /quizzes/:id/edit
       # Tests the edit action that displays form for editing an existing quiz
       describe 'GET /quizzes/:id/edit' do
-        let(:quiz) { create(:quiz) }
+        let(:quiz) { create(:quiz, user:) }
 
         it 'renders edit' do
           get edit_quiz_path(quiz)
@@ -187,7 +187,7 @@ describe 'Quizzes', type: :request do
       # PATCH /quizzes/:id
       # Tests the update action with nested attributes and image handling
       describe 'PATCH /quizzes/:id' do
-        let!(:quiz) { create(:quiz, name: 'Original') }
+        let!(:quiz) { create(:quiz, name: 'Original', user:) }
 
         context 'with valid params' do
           it 'updates and redirects' do
@@ -212,7 +212,7 @@ describe 'Quizzes', type: :request do
       # DELETE /quizzes/:id
       # Tests the destroy action that deletes a quiz and all its associations
       describe 'DELETE /quizzes/:id' do
-        let!(:quiz) { create(:quiz) }
+        let!(:quiz) { create(:quiz, user:) }
 
         it 'deletes quiz and redirects' do
           expect do

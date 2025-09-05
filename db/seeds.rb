@@ -16,7 +16,7 @@ seed_files = Dir[Rails.root.join('db', 'seeds', '**', '*.json')]
 
 seed_files.each do |file_path|
   data = JSON.parse(File.read(file_path))
-  quiz = Quiz.create!(name: data['name'], category: data['category'])
+  quiz = Quiz.create!(name: data['name'], category: data['category'], visibility: data['visibility'])
   data['questions'].each do |question|
     quiz.questions.create!(question)
   end

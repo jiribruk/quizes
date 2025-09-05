@@ -12,6 +12,7 @@ FactoryBot.define do
   factory :quiz do
     sequence(:name) { |n| "Quiz name #{n}" }
     sequence(:category) { |n| "Category #{n}" }
+    visibility { :public }
 
     # Trait for creating a quiz with one associated question
     trait :with_questions do

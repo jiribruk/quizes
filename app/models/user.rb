@@ -15,6 +15,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  # Associations
+  has_many :quizzes, dependent: :destroy #TODO optimalizovat pro skupinove kvízy
+  has_many :owned_user_groups, class_name: 'UserGroup', foreign_key: 'owner_id', dependent: :destroy
+  has_many :user_group_memberships, dependent: :destroy
+  has_many :user_groups, through: :user_group_memberships
+
   # Validations
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :first_name, length: { minimum: 2, maximum: 50 }, allow_blank: true

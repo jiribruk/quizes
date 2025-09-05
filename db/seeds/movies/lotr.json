@@ -1,6 +1,7 @@
 {
   "category": "movies",
   "name": "Kvíz o filmu Pán prstenů: Společenstvo Prstenu",
+  "visibility": 1,
   "questions": [
     {
       "text": "Kdo je autorem knižní předlohy Pána prstenů?",

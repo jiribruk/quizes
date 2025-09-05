@@ -1,6 +1,7 @@
 {
   "category": "companies",
   "name": "Kvíz o firmě Juicymo",
+  "visibility": 1,
   "questions": [
     {
       "text": "V jakém roce byla založena firma Juicymo?",
