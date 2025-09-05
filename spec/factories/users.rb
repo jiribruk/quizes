@@ -11,6 +11,8 @@ FactoryBot.define do
     sequence(:email) { |n| "user#{n}@example.com" }
     password { 'password123' }
     password_confirmation { 'password123' }
+    first_name { "Test" }
+    last_name { "User" }
 
     # Trait for confirmed user
     trait :confirmed do
@@ -20,6 +22,14 @@ FactoryBot.define do
     # Trait for admin user (if needed in future)
     trait :admin do
       sequence(:email) { |n| "admin#{n}@example.com" }
+      first_name { "Admin" }
+      last_name { "User" }
+    end
+
+    # Trait for user without names (legacy)
+    trait :without_names do
+      first_name { nil }
+      last_name { nil }
     end
   end
 end

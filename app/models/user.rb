@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 # User model with Devise authentication.
-# Handles user registration, login, and authentication.
+# Handles user registration, login, authentication, and profile management.
 #
 # @example
-#   user = User.create(email: "user@example.com", password: "password123")
+#   user = User.create(email: "user@example.com", password: "password123", first_name: "John", last_name: "Doe")
 #   user.valid_password?("password123") # => true
+#   user.display_name # => "John Doe"
+#   user.gravatar_url # => "https://www.gravatar.com/avatar/..."
 #
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
@@ -13,13 +15,46 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  # Validates presence of email
+  # Validations
   validates :email, presence: true, uniqueness: { case_sensitive: false }
+  validates :first_name, presence: true, length: { minimum: 2, maximum: 50 }
+  validates :last_name, presence: true, length: { minimum: 2, maximum: 50 }
 
-  # Returns user's display name (email for now)
+  # Returns user's full display name
   #
-  # @return [String] the user's display name
+  # @return [String] the user's full name or email if names are not set
   def display_name
-    email
+    if first_name.present? && last_name.present?
+      "#{first_name} #{last_name}"
+    else
+      email
+    end
+  end
+
+  # Returns user's first name or email if first name is not set
+  #
+  # @return [String] the user's first name
+  def first_name_or_email
+    first_name.present? ? first_name : email.split('@').first
+  end
+
+  # Returns Gravatar URL for the user
+  #
+  # @param size [Integer] the size of the avatar in pixels (default: 80)
+  # @return [String] the Gravatar URL
+  def gravatar_url(size: 80)
+    require 'digest/md5'
+    hash = Digest::MD5.hexdigest(email.downcase)
+    "https://www.gravatar.com/avatar/#{hash}?s=#{size}&d=identicon"
+  end
+
+  # Returns Gravatar image tag
+  #
+  # @param size [Integer] the size of the avatar in pixels (default: 80)
+  # @param css_class [String] CSS class for the image
+  # @return [String] HTML img tag with Gravatar
+  def gravatar_image(size: 80, css_class: 'gravatar')
+    require 'gravatar_image_tag'
+    GravatarImageTag.gravatar_url(email, size: size, default: :identicon)
   end
 end

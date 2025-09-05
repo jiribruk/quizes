@@ -49,3 +49,26 @@ cs:
       others: "Ostatní"
     index:
       title: "Seznam kvízů"
+
+  users:
+    navbar:
+      signed_in_as: "Přihlášen jako: %{name}"
+      edit_profile: "Upravit profil"
+      confirm_sign_out: "Opravdu se chcete odhlásit?"
+    profile:
+      gravatar_info: "Avatar z Gravatar.com"
+      change_password: "Změnit heslo"
+
+  activerecord:
+    attributes:
+      user:
+        first_name: "Jméno"
+        last_name: "Příjmení"
+    errors:
+      models:
+        user:
+          attributes:
+            first_name:
+              invalid: "Zadejte prosím jméno (2-50 znaků)."
+            last_name:
+              invalid: "Zadejte prosím příjmení (2-50 znaků)."

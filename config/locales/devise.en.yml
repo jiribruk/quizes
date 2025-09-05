@@ -63,3 +63,27 @@ en:
       not_saved:
         one: "1 error prohibited this %{resource} from being saved:"
         other: "%{count} errors prohibited this %{resource} from being saved:"
+
+en:
+  users:
+    navbar:
+      signed_in_as: "Signed in as: %{name}"
+      edit_profile: "Edit Profile"
+      confirm_sign_out: "Are you sure you want to sign out?"
+    profile:
+      gravatar_info: "Avatar from Gravatar.com"
+      change_password: "Change Password"
+
+  activerecord:
+    attributes:
+      user:
+        first_name: "First Name"
+        last_name: "Last Name"
+    errors:
+      models:
+        user:
+          attributes:
+            first_name:
+              invalid: "Please enter first name (2-50 characters)."
+            last_name:
+              invalid: "Please enter last name (2-50 characters)."

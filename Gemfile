@@ -39,6 +39,8 @@ gem 'jbuilder'
 gem 'devise'
 # Use Devise I18n for internationalization [https://github.com/tigrish/devise-i18n]
 gem 'devise-i18n'
+# Use Gravatar for user avatars [https://github.com/mdeering/gravatar_image_tag]
+gem 'gravatar_image_tag'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[ windows jruby ]

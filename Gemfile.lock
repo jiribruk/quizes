@@ -120,6 +120,7 @@ GEM
       railties (>= 6.1.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    gravatar_image_tag (1.2.0)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.2.2)
@@ -337,6 +338,7 @@ DEPENDENCIES
   devise
   devise-i18n
   factory_bot_rails
+  gravatar_image_tag
   importmap-rails
   jbuilder
   mysql2 (~> 0.5)
