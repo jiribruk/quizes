@@ -1,0 +1,78 @@
+/* Modern navbar button styles with glassmorphism effect */
+
+.navbar-btn {
+  border: none !important;
+  color: #2c3e50 !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.3s ease !important;
+  font-weight: 500 !important;
+}
+
+.navbar-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+}
+
+.navbar-btn:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.navbar-btn-signup {
+  border: none !important;
+  color: #fff !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4), 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease !important;
+  font-weight: 500 !important;
+}
+
+.navbar-btn-signup:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5), 0 3px 6px rgba(0, 0, 0, 0.15) !important;
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%) !important;
+}
+
+.navbar-btn-signup:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3), 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+.navbar-btn-logout {
+  border: none !important;
+  color: #e74c3c !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.3s ease !important;
+  font-weight: 500 !important;
+}
+
+.navbar-btn-logout:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.2), 0 3px 6px rgba(0, 0, 0, 0.1) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #c0392b !important;
+}
+
+.navbar-btn-logout:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.navbar-gravatar {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  transition: all 0.3s ease !important;
+}
+
+.navbar-gravatar:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
+}
