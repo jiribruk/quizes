@@ -23,21 +23,97 @@ module QuizzesHelper
     end
   end
 
-  # Renders a single quiz as a list-group item with a link.
+  # Renders a single quiz as a beautiful card with actions.
   #
   # @param quiz [Quiz]
-  # @return [String] HTML safe list item with link to quiz show page
-  def quizzes_list_item(quiz:)
-    tag.li(class: 'list-group-item w-50 mx-auto rounded position-relative d-flex align-items-center pe-5') do
-      safe_join([
-                  link_to(quiz.name, quiz_path(quiz), class: 'text-decoration-none text-dark flex-grow-1'),
-                  button_to('🧨', quiz_path(quiz),
-                            method: :delete,
-                            data: { turbo_confirm: t('buttons.confirm.message') },
-                            form: { class: 'position-absolute end-0 me-3' },
-                            class: 'btn btn-link p-0 m-0 text-danger fs-4 text-decoration-none',
-                            title: t('buttons.destroy'))
-                ])
+  # @return [String] HTML safe card with quiz information and actions
+  def quiz_card(quiz:)
+    tag.div(class: 'card h-100 shadow-sm') do
+      tag.div(class: 'card-body d-flex flex-column') do
+        safe_join([
+          # Quiz header with visibility badge
+          tag.div(class: 'd-flex justify-content-between align-items-start mb-2') do
+            tag.h5(class: 'card-title mb-0 flex-grow-1') do
+              link_to(quiz.name, quiz_path(quiz), class: 'text-decoration-none text-dark')
+            end +
+            visibility_badge(quiz: quiz)
+          end,
+          
+          # Quiz info
+          tag.div(class: 'mb-3') do
+            safe_join([
+              tag.small(class: 'text-muted d-block') do
+                tag.i(class: 'bi bi-person me-1') + 
+                (quiz.user ? quiz.user.display_name : t('quiz.no_owner'))
+              end,
+              tag.small(class: 'text-muted d-block') do
+                tag.i(class: 'bi bi-question-circle me-1') + 
+                t('quiz.questions_count', count: quiz.questions.count)
+              end
+            ])
+          end,
+          
+          # Actions
+          tag.div(class: 'mt-auto') do
+            tag.div(class: 'd-grid gap-2') do
+              safe_join([
+                link_to(quiz_path(quiz), class: 'btn btn-outline-primary btn-sm') do
+                  tag.i(class: 'bi bi-play-circle me-1') + t('buttons.start_quiz')
+                end,
+                action_buttons(quiz: quiz)
+              ])
+            end
+          end
+        ])
+      end
+    end
+  end
+
+  # Renders visibility badge for quiz
+  #
+  # @param quiz [Quiz]
+  # @return [String] HTML safe badge
+  def visibility_badge(quiz:)
+    if quiz.visibility_public?
+      tag.span(class: 'badge bg-success') do
+        tag.i(class: 'bi bi-globe me-1') + t('quiz.visibility.public')
+      end
+    else
+      tag.span(class: 'badge bg-warning text-dark') do
+        tag.i(class: 'bi bi-lock me-1') + t('quiz.visibility.private')
+      end
+    end
+  end
+
+  # Renders action buttons for quiz (edit/delete for owners)
+  #
+  # @param quiz [Quiz]
+  # @return [String] HTML safe action buttons
+  def action_buttons(quiz:)
+    if current_user && quiz.user == current_user
+      tag.div(class: 'd-flex gap-1') do
+        safe_join([
+          link_to(edit_quiz_path(quiz), class: 'btn btn-outline-secondary btn-sm flex-fill') do
+            tag.i(class: 'bi bi-pencil')
+          end,
+          button_to(quiz_path(quiz), 
+                    method: :delete,
+                    class: 'btn btn-outline-danger btn-sm flex-fill',
+                    data: { 
+                      turbo_confirm: t('quiz.confirm_delete'),
+                      turbo_method: :delete
+                    },
+                    title: t('buttons.delete_quiz')) do
+            tag.i(class: 'bi bi-trash')
+          end
+        ])
+      end
+    else
+      tag.div(class: 'd-flex gap-1') do
+        tag.span(class: 'btn btn-outline-secondary btn-sm flex-fill disabled') do
+          tag.i(class: 'bi bi-eye-slash me-1') + t('quiz.read_only')
+        end
+      end
     end
   end
 

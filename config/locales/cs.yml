@@ -27,6 +27,8 @@ cs:
     submit: "Vyhodnotit"
     view: "Zobrazit"
     cancel: "Zrušit"
+    start_quiz: "Spustit kvíz"
+    delete_quiz: "Smazat kvíz"
 
   flash:
     messages:
@@ -50,6 +52,8 @@ cs:
       others: "Ostatní"
     index:
       title: "Seznam kvízů"
+      no_quizzes: "Žádné kvízy nejsou k dispozici."
+      create_first: "Vytvořte svůj první kvíz a začněte testovat znalosti!"
     errors:
       access_denied: "Nemáte oprávnění k zobrazení tohoto kvízu."
       ownership_required: "Pouze vlastník může upravovat tento kvíz."
@@ -62,6 +66,15 @@ cs:
       sensitive_data: "⚠️ UPOZORNĚNÍ: Nepoužívejte veřejné kvízy pokud obshují citlivé informace!"
       group_sensitive_data: "⚠️ UPOZORNĚNÍ: Pokud kvíz obsahuje citlivé informace, pozvěte pouze důvěryhodné uživatele!"
     no_groups_message: "Nemáte vytvořené žádné skupiny. Vytvořte skupinu pro sdílení kvízů s ostatními uživateli."
+    no_owner: "Bez vlastníka"
+    questions_count:
+      zero: "0 otázek"
+      one: "1 otázka"
+      few: "%{count} otázky"
+      many: "%{count} otázek"
+      other: "%{count} otázek"
+    read_only: "Pouze pro čtení"
+    confirm_delete: "Opravdu chcete smazat tento kvíz? Tato akce je nevratná."
 
   user_groups:
     index:
