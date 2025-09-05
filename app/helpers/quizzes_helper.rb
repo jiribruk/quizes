@@ -43,8 +43,16 @@ module QuizzesHelper
           tag.div(class: 'mb-3') do
             safe_join([
               tag.small(class: 'text-muted d-block') do
-                tag.i(class: 'bi bi-person me-1') + 
-                (quiz.user ? quiz.user.display_name : t('quiz.no_owner'))
+                if quiz.user
+                  tag.i(class: 'bi bi-person me-1') +
+                  tag.img(src: quiz.user.gravatar_url(size: 16), 
+                          class: 'rounded-circle me-1', 
+                          alt: quiz.user.display_name,
+                          style: 'width: 16px; height: 16px;') +
+                  quiz.user.display_name
+                else
+                  tag.i(class: 'bi bi-person me-1') + t('quiz.no_owner')
+                end
               end,
               tag.small(class: 'text-muted d-block') do
                 tag.i(class: 'bi bi-question-circle me-1') + 
