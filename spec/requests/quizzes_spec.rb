@@ -72,7 +72,7 @@ describe 'Quizzes', type: :request do
         get quizzes_path
         follow_redirect!
         expect(response.body).to include('Přihlásit se')
-        expect(response.body).to include('Registrace')
+        expect(response.body).to include('Zaregistrovat se')
       end
     end
 
@@ -91,8 +91,8 @@ describe 'Quizzes', type: :request do
         it 'shows user info in navbar' do
           get quizzes_path
           expect(response.body).to include('Přihlášen jako:')
-          expect(response.body).to include(user.email)
-          expect(response.body).to include('Odhlásit se')
+          expect(response.body).to include(user.display_name)
+          expect(response.body).to include('Odhlášen(a).')
         end
       end
 

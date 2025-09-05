@@ -17,8 +17,8 @@ class User < ApplicationRecord
 
   # Validations
   validates :email, presence: true, uniqueness: { case_sensitive: false }
-  validates :first_name, presence: true, length: { minimum: 2, maximum: 50 }
-  validates :last_name, presence: true, length: { minimum: 2, maximum: 50 }
+  validates :first_name, length: { minimum: 2, maximum: 50 }, allow_blank: true
+  validates :last_name, length: { minimum: 2, maximum: 50 }, allow_blank: true
 
   # Returns user's full display name
   #

@@ -58,9 +58,13 @@ describe User, type: :model do
   end
 
   describe 'display_name' do
-    let(:user) { create(:user, email: 'test@example.com') }
+    it 'returns full name when both names are present' do
+      user = create(:user, first_name: 'John', last_name: 'Doe', email: 'test@example.com')
+      expect(user.display_name).to eq('John Doe')
+    end
 
-    it 'returns email as display name' do
+    it 'returns email when names are not present' do
+      user = build(:user, first_name: nil, last_name: nil, email: 'test@example.com')
       expect(user.display_name).to eq('test@example.com')
     end
   end

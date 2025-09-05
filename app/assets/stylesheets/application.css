@@ -38,3 +38,8 @@
     font-weight: bold;
     animation: backgroundColorCycle 3s linear infinite, borderColorCycle 3s linear infinite;
   }
+
+  .form-label.required::after {
+    content: " *";
+    color: #dc3545;
+  }
