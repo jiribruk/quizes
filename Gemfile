@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '3.4.4'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 7.1.3', '>= 7.1.3.2'
+gem 'rails', '~> 8.0.2'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
@@ -34,6 +34,11 @@ gem 'jbuilder'
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
+
+# Use Devise for authentication [https://github.com/heartcombo/devise]
+gem 'devise'
+# Use Devise I18n for internationalization [https://github.com/tigrish/devise-i18n]
+gem 'devise-i18n'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[ windows jruby ]
