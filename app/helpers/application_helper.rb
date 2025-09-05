@@ -25,10 +25,10 @@ module ApplicationHelper
         tag.div(class: 'navbar-nav ms-auto') do
           if user_signed_in?
             tag.div(class: 'd-flex align-items-center') do
-              tag.img(src: current_user.gravatar_url(size: 32), 
+              tag.img(src: current_user.gravatar_url(size: 48), 
                       class: 'rounded-circle me-2 navbar-gravatar', 
                       alt: current_user.display_name,
-                      style: 'width: 32px; height: 32px;',
+                      style: 'width: 48px; height: 48px;',
                       title: t('users.navbar.signed_in_as', name: current_user.display_name)) +
               tag.a(t('users.navbar.edit_profile'), class: 'btn btn-sm me-2 navbar-btn', 
                     href: edit_user_registration_path) +
