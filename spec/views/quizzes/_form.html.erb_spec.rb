@@ -7,14 +7,19 @@ require 'rails_helper'
 #
 # @see QuizzesController#new, QuizzesController#edit
 describe 'quizzes/_form', type: :view do
+  include Devise::Test::ControllerHelpers
+
   # Creates test quiz with question using build_stubbed for performance
   let(:quiz) { build_stubbed(:quiz, questions: [question]) }
   let(:question) { build_stubbed(:question, text: 'Question text') }
   let(:indexes) { Indexes.new(question_index: 1, answer_index: 3) }
+  let(:user) { create(:user) }
 
-  # Assigns indexes to the view instance variable
+  # Assigns indexes to the view instance variable and mocks current_user
   before do
     assign(:indexes, indexes)
+    allow(view).to receive(:current_user).and_return(user)
+    allow(user).to receive(:user_groups).and_return([])
   end
 
   # Subject for testing the rendered form partial

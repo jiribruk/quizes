@@ -165,7 +165,7 @@ describe 'Quizzes', type: :request do
               post quizzes_path, params: { quiz: quiz_params }
             end.not_to change(Quiz, :count)
 
-            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response).to have_http_status(:unprocessable_content)
             expect(response).to render_template(:new)
             expect(flash[:alert]).to be_present
           end
@@ -201,7 +201,7 @@ describe 'Quizzes', type: :request do
         context 'with invalid params' do
           it 'does not update and renders edit' do
             patch quiz_path(quiz), params: { quiz: { name: '' } }
-            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response).to have_http_status(:unprocessable_content)
             expect(response).to render_template(:edit)
             expect(flash[:alert]).to be_present
             expect(quiz.reload.name).to eq('Original')

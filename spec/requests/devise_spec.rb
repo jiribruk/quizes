@@ -45,7 +45,7 @@ describe 'Devise Authentication', type: :request do
           post user_registration_path, params: user_params
         end.not_to change(User, :count)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to render_template('devise/registrations/new')
       end
     end
@@ -77,7 +77,7 @@ describe 'Devise Authentication', type: :request do
           }
         }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to render_template('devise/sessions/new')
       end
     end
@@ -112,7 +112,7 @@ describe 'Devise Authentication', type: :request do
       end.not_to(change { ActionMailer::Base.deliveries.count })
 
       # Devise returns 422 for invalid email in paranoid mode
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

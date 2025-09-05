@@ -54,9 +54,9 @@
         <div class="col-12 mb-3">
           <%= form.label :user_group_ids, t("labels.user_groups"), class: "form-label fw-bold" %>
           <div class="form-text text-muted mb-2"><%= t("quiz.warnings.group_sensitive_data") %></div>
-          <% if @user_groups.any? %>
+          <% if current_user.user_groups.any? %>
             <div class="row">
-              <% @user_groups.each do |group| %>
+              <% current_user.user_groups.each do |group| %>
                 <div class="col-md-6 mb-2">
                   <div class="form-check">
                     <%= form.check_box :user_group_ids, { multiple: true, class: "form-check-input" }, group.id, nil %>

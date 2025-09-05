@@ -5,8 +5,8 @@
 #
 # @see https://guides.rubyonrails.org/action_controller_overview.html
 class QuizzesController < ApplicationController
- # before_action :authorize_quiz_access, only: [:show, :edit, :update, :destroy, :evaluation]
-  #before_action :authorize_quiz_ownership, only: [:edit, :update, :destroy]
+  before_action :authorize_quiz_access, only: [:show, :edit, :update, :destroy, :evaluation]
+  before_action :authorize_quiz_ownership, only: [:edit, :update, :destroy]
 
   # GET /quizzes
   # Displays all quizzes visible to current user grouped by category
@@ -62,7 +62,6 @@ class QuizzesController < ApplicationController
   # @return [void]
   def edit
     quiz
-    @user_groups = current_user.user_groups
   end
 
   # PATCH/PUT /quizzes/:id
@@ -74,10 +73,9 @@ class QuizzesController < ApplicationController
     remove_image_from_question
     if quiz.update(quiz_params)
       flash[:notice] = t('flash.messages.success')
-      redirect_to quiz_path(@quiz)
+      redirect_to quiz_path(quiz)
     else
-      @user_groups = current_user.user_groups
-      flash[:alert] = @quiz.errors.full_messages.join(', ')
+      flash[:alert] = quiz.errors.full_messages.join(', ')
       render :edit, status: :unprocessable_content
     end
   end
@@ -141,7 +139,7 @@ class QuizzesController < ApplicationController
   # @return [void]
   def authorize_quiz_access
     unless quiz.visible_to?(current_user)
-      flash[:alert] = t('quizzes.errors.access_denied')
+      flash[:alert] = t('quiz.errors.access_denied')
       redirect_to quizzes_path
     end
   end
@@ -151,7 +149,7 @@ class QuizzesController < ApplicationController
   # @return [void]
   def authorize_quiz_ownership
     unless quiz.user == current_user
-      flash[:alert] = t('quizzes.errors.ownership_required')
+      flash[:alert] = t('quiz.errors.ownership_required')
       redirect_to quiz_path(quiz)
     end
   end

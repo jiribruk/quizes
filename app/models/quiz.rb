@@ -45,7 +45,7 @@ class Quiz < ApplicationRecord
   def visible_to?(user)
     return true if visibility_public?
     return true if visibility_private? && user == self.user
-    return true if visibility_private? && user.user_groups.exists?(id: user_groups.pluck(:id))
+    return true if visibility_private? && user&.user_groups&.exists?(id: user_groups.pluck(:id))
     false
   end
 end
