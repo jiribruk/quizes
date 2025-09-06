@@ -4,10 +4,6 @@
 #
 # @see https://guides.rubyonrails.org/action_view_overview.html
 module ApplicationHelper
-  def title(text:)
-    tag.h1(text, class: 'mb-4')
-  end
-
   # Renders the top Bootstrap navbar with navigation links and user authentication.
   # @return [String] HTML safe navbar
   def top_navbar

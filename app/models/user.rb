@@ -37,13 +37,6 @@ class User < ApplicationRecord
     end
   end
 
-  # Returns user's first name or email if first name is not set
-  #
-  # @return [String] the user's first name
-  def first_name_or_email
-    first_name.present? ? first_name : email.split('@').first
-  end
-
   # Returns Gravatar URL for the user
   #
   # @param size [Integer] the size of the avatar in pixels (default: 80)
@@ -52,15 +45,5 @@ class User < ApplicationRecord
     require 'digest/md5'
     hash = Digest::MD5.hexdigest(email.downcase)
     "https://www.gravatar.com/avatar/#{hash}?s=#{size}&d=identicon"
-  end
-
-  # Returns Gravatar image tag
-  #
-  # @param size [Integer] the size of the avatar in pixels (default: 80)
-  # @param css_class [String] CSS class for the image
-  # @return [String] HTML img tag with Gravatar
-  def gravatar_image(size: 80, css_class: 'gravatar')
-    require 'gravatar_image_tag'
-    GravatarImageTag.gravatar_url(email, size: size, default: :identicon)
   end
 end
