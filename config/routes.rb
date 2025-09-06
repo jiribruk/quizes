@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   # get "up" => "rails/health#show", as: :rails_health_check
 
+  # Devise routes for user authentication
+  devise_for :users
+
   # Defines the root path route ("/")
   root 'quizzes#index'
 
@@ -17,4 +20,6 @@ Rails.application.routes.draw do
       post :add_answer
     end
   end
+
+  resources :user_groups
 end

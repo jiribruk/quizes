@@ -1,6 +1,5 @@
 <%= tag.h1(class: 'mb-4') do
-  tag.span(@quiz.name) + '     ' +
-    tag.span(link_to("✏", edit_quiz_path(@quiz), title: t('buttons.edit')), class: "fs-6").html_safe
+  tag.span(@quiz.name)
 end %>
 <span id="score_marker"></span>
 

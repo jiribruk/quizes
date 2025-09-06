@@ -10,13 +10,6 @@ cs:
     answers_section: "Odpovědi"
     question_number: "Otázka %{number}"
 
-  labels:
-    quiz_name: "Název kvízu"
-    category: "Kategorie"
-    question_text: "Text otázky"
-    question_image: "Obrázek otázky"
-    correct_answer: "Správná odpověď"
-
   placeholders:
     quiz_name: "Zadejte název kvízu"
     category: "Zadejte kategorii"
@@ -32,6 +25,10 @@ cs:
     new_quiz: "Nový kvíz"
     home: "Domů"
     submit: "Vyhodnotit"
+    view: "Zobrazit"
+    cancel: "Zrušit"
+    start_quiz: "Spustit kvíz"
+    delete_quiz: "Smazat kvíz"
 
   flash:
     messages:
@@ -43,9 +40,185 @@ cs:
 
   quiz:
     score: "Tvůj skóre je %{score}/%{questions_count}"
+    count:
+      zero: "0 kvízů"
+      one: "1 kvíz"
+      few: "%{count} kvízy"
+      many: "%{count} kvízů"
+      other: "%{count} kvízů"
     category:
       movies: "Filmy"
       companies: "Firmy"
       others: "Ostatní"
     index:
       title: "Seznam kvízů"
+      no_quizzes: "Žádné kvízy nejsou k dispozici."
+      create_first: "Vytvořte svůj první kvíz a začněte testovat znalosti!"
+    errors:
+      access_denied: "Nemáte oprávnění k zobrazení tohoto kvízu."
+      ownership_required: "Pouze vlastník může upravovat tento kvíz."
+    visibility:
+      public: "Veřejný"
+      private: "Soukromý"
+      public_description: "Viditelný všem uživatelům v aplikaci"
+      private_description: "Viditelný pouze vám a vybraným skupinám"
+    warnings:
+      sensitive_data: "⚠️ UPOZORNĚNÍ: Nepoužívejte veřejné kvízy pokud obshují citlivé informace!"
+      group_sensitive_data: "⚠️ UPOZORNĚNÍ: Pokud kvíz obsahuje citlivé informace, pozvěte pouze důvěryhodné uživatele!"
+    no_groups_message: "Nemáte vytvořené žádné skupiny. Vytvořte skupinu pro sdílení kvízů s ostatními uživateli."
+    no_owner: "Bez vlastníka"
+    questions_count:
+      zero: "0 otázek"
+      one: "1 otázka"
+      few: "%{count} otázky"
+      many: "%{count} otázek"
+      other: "%{count} otázek"
+    read_only: "Pouze pro čtení"
+    confirm_delete: "Opravdu chcete smazat tento kvíz? Tato akce je nevratná."
+
+  user_groups:
+    index:
+      title: "Moje skupiny"
+      new_group: "Nová skupina"
+      no_groups: "Nemáte vytvořené žádné skupiny."
+      create_first: "Vytvořte svou první skupinu pro sdílení kvízů s ostatními uživateli."
+    show:
+      title: "Skupina: %{name}"
+      members: "Členové skupiny"
+      shared_quizzes: "Sdílené kvízy"
+      no_members: "Skupina nemá žádné členy."
+      no_quizzes: "Skupina nesdílí žádné kvízy."
+    new:
+      title: "Nová skupina"
+    edit:
+      title: "Upravit skupinu"
+    form:
+      name_label: "Název skupiny"
+      description_label: "Popis skupiny"
+      name_placeholder: "Zadejte název skupiny"
+      description_placeholder: "Zadejte popis skupiny (volitelné)"
+    messages:
+      created: "Skupina byla úspěšně vytvořena."
+      updated: "Skupina byla úspěšně upravena."
+      deleted: "Skupina byla úspěšně smazána."
+    errors:
+      ownership_required: "Pouze vlastník může spravovat tuto skupinu."
+      prevented_saving: "zabránila uložení skupiny"
+    buttons:
+      new_group: "Nová skupina"
+      edit_group: "Upravit skupinu"
+      delete_group: "Smazat skupinu"
+      back_to_groups: "Zpět na skupiny"
+    member_count:
+      zero: "0 členů"
+      one: "1 člen"
+      few: "%{count} členi"
+      many: "%{count} členů"
+      other: "%{count} členů"
+    error_count:
+      zero: "0 chyb"
+      one: "1 chyba"
+      few: "%{count} chyby"
+      many: "%{count} chyb"
+      other: "%{count} chyb"
+    confirm_delete: "Opravdu chcete smazat tuto skupinu? Tato akce je nevratná."
+
+  labels:
+    quiz_name: "Název kvízu"
+    category: "Kategorie"
+    question_text: "Text otázky"
+    question_image: "Obrázek otázky"
+    correct_answer: "Správná odpověď"
+    visibility: "Viditelnost kvízu"
+    user_groups: "Sdílet se skupinami"
+
+  users:
+    navbar:
+      signed_in_as: "Přihlášen jako: %{name}"
+      edit_profile: "Upravit profil"
+      confirm_sign_out: "Opravdu se chcete odhlásit?"
+    profile:
+      gravatar_info: "Avatar z Gravatar.com"
+      change_password: "Změnit heslo"
+
+
+  activerecord:
+    attributes:
+      user:
+        first_name: "Jméno"
+        last_name: "Příjmení"
+      quiz:
+        name: "Název kvízu"
+        category: "Kategorie"
+        visibility: "Viditelnost"
+        user: "Uživatel"
+      user_group:
+        name: "Název skupiny"
+        description: "Popis"
+        owner: "Vlastník"
+      quiz_user_group:
+        quiz: "Kvíz"
+        user_group: "Skupina uživatelů"
+      user_group_membership:
+        user: "Uživatel"
+        user_group: "Skupina uživatelů"
+    errors:
+      messages:
+        blank: "je povinná položka"
+        taken: "již databáze obsahuje"
+        too_short: "je příliš krátký/á/é (min. %{count} znaků)"
+        confirmation: "nebylo potvrzeno"
+        inclusion: "není zahrnuto v seznamu"
+        exclusion: "je vyhrazeno"
+        invalid: "není platný"
+        not_a_number: "není číslo"
+        greater_than: "musí být větší než %{count}"
+        greater_than_or_equal_to: "musí být větší nebo rovno %{count}"
+        equal_to: "musí být rovno %{count}"
+        less_than: "musí být menší než %{count}"
+        less_than_or_equal_to: "musí být menší nebo rovno %{count}"
+        other_than: "musí být jiné než %{count}"
+        odd: "musí být liché"
+        even: "musí být sudé"
+        too_long: "je příliš dlouhý/á/é (max. %{count} znaků)"
+        wrong_length: "má nesprávnou délku (musí být %{count} znaků)"
+        not_saved: "nebyl uložen kvůli %{count} chybám"
+        required: "musí existovat"
+      models:
+        user:
+          attributes:
+            first_name:
+              invalid: "Zadejte prosím jméno (2-50 znaků)."
+            last_name:
+              invalid: "Zadejte prosím příjmení (2-50 znaků)."
+            email:
+              blank: "je povinná položka"
+              taken: "již databáze obsahuje"
+            password:
+              blank: "je povinná položka"
+              too_short: "je příliš krátký/á/é (min. 6 znaků)"
+            password_confirmation:
+              confirmation: "nebylo potvrzeno"
+        quiz:
+          attributes:
+            user:
+              blank: "je povinná položka"
+        user_group:
+          attributes:
+            name:
+              blank: "je povinná položka"
+              too_short: "je příliš krátký/á/é (min. 2 znaky)"
+            owner:
+              blank: "musí existovat"
+        quiz_user_group:
+          attributes:
+            quiz:
+              blank: "musí existovat"
+            user_group:
+              blank: "musí existovat"
+        user_group_membership:
+          attributes:
+            user:
+              blank: "musí existovat"
+            user_group:
+              blank: "musí existovat"

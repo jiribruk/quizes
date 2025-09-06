@@ -1,6 +1,7 @@
 {
   "category": "companies",
   "name": "Kvíz o firmě Easy Software",
+  "visibility": 1,
   "questions": [
     {
       "text": "Kdy byla založena firma Easy Software?",

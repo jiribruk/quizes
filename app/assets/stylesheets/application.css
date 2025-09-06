@@ -38,3 +38,33 @@
     font-weight: bold;
     animation: backgroundColorCycle 3s linear infinite, borderColorCycle 3s linear infinite;
   }
+
+  .form-label.required::after {
+    content: " *";
+    color: #dc3545;
+  }
+
+  /* Quiz form visibility styles */
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  .form-check-input:checked {
+    background-color: #198754;
+    border-color: #198754;
+  }
+
+  .form-check-input:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  }
+
+  .visibility-card {
+    transition: all 0.3s ease;
+  }
+
+  .visibility-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }

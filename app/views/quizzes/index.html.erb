@@ -1,12 +1,44 @@
-<%= title(text: I18n.t('quiz.index.title')) %>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">
+          <i class="bi bi-question-square-fill text-primary me-2"></i>
+          <%= t('quiz.index.title') %>
+        </h1>
+      </div>
 
-<ul class="list-group">
-  <% @grouped_quizzes.each do |category_label, quizzes| %>
-    <%= quizzes_group_header(category_label:) %>
-
-    <% quizzes.each do |quiz| %>
-      <%= quizzes_list_item(quiz:) %>
-    <% end %>
-  <% end %>
-</ul>
+      <% if @grouped_quizzes.any? %>
+        <% @grouped_quizzes.each do |category_label, quizzes| %>
+          <div class="mb-4">
+            <h2 class="h5 text-muted mb-3">
+              <i class="bi bi-tag me-2"></i>
+              <%= t("quiz.category.#{category_label}") %>
+              <span class="badge bg-secondary ms-2"><%= quizzes.count %></span>
+            </h2>
+            <div class="row">
+              <% quizzes.each do |quiz| %>
+                <div class="col-md-6 col-lg-4 mb-3">
+                  <%= quiz_card(quiz: quiz) %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="text-center py-5">
+          <div class="mb-4">
+            <i class="bi bi-question-square text-muted" style="font-size: 4rem;"></i>
+          </div>
+          <h4 class="text-muted mb-3"><%= t('quiz.index.no_quizzes') %></h4>
+          <p class="text-muted mb-4"><%= t('quiz.index.create_first') %></p>
+          <%= link_to new_quiz_path, class: "btn btn-primary btn-lg" do %>
+            <i class="bi bi-plus-circle me-2"></i>
+            <%= t('buttons.new_quiz') %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
 

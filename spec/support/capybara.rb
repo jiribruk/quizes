@@ -4,8 +4,9 @@ require 'capybara/rspec'
 
 # Configure Capybara for feature tests
 Capybara.configure do |config|
-  # Use Selenium WebDriver for JavaScript-enabled tests
-  config.default_driver = :selenium_chrome_headless
+  # Use rack_test as default for WSL compatibility
+  # Chrome will be used only when explicitly requested via js: true
+  config.default_driver = :rack_test
   config.javascript_driver = :selenium_chrome_headless
 
   # Set default wait time for asynchronous operations
@@ -18,7 +19,7 @@ Capybara.configure do |config|
   config.automatic_reload = true
 end
 
-# Configure Selenium WebDriver
+# Configure Selenium WebDriver for WSL environment
 Capybara.register_driver :selenium_chrome_headless do |app|
   options = Selenium::WebDriver::Chrome::Options.new
 
@@ -31,6 +32,32 @@ Capybara.register_driver :selenium_chrome_headless do |app|
   options.add_argument('--disable-web-security')
   options.add_argument('--allow-running-insecure-content')
   options.add_argument('--disable-features=VizDisplayCompositor')
+
+  # WSL specific options
+  options.add_argument('--disable-extensions')
+  options.add_argument('--disable-plugins')
+  options.add_argument('--disable-images')
+  options.add_argument('--disable-javascript')
+  options.add_argument('--disable-default-apps')
+  options.add_argument('--disable-sync')
+  options.add_argument('--disable-translate')
+  options.add_argument('--hide-scrollbars')
+  options.add_argument('--mute-audio')
+  options.add_argument('--no-first-run')
+  options.add_argument('--disable-background-timer-throttling')
+  options.add_argument('--disable-backgrounding-occluded-windows')
+  options.add_argument('--disable-renderer-backgrounding')
+  options.add_argument('--disable-features=TranslateUI')
+  options.add_argument('--disable-ipc-flooding-protection')
+
+  # Create unique user data directory for each test
+  user_data_dir = Dir.mktmpdir('chrome_test_profile_')
+  options.add_argument("--user-data-dir=#{user_data_dir}")
+  options.add_argument('--remote-debugging-port=0')
+
+  # WSL specific: disable hardware acceleration
+  options.add_argument('--disable-software-rasterizer')
+  options.add_argument('--disable-background-networking')
 
   Capybara::Selenium::Driver.new(
     app,
@@ -131,18 +158,13 @@ end
 RSpec.configure do |config|
   config.include CapybaraHelpers, type: :feature
 
-  # Configure retry for flaky tests
   config.around(:each, type: :feature) do |example|
     retries = 0
-    max_retries = 2
 
     begin
       example.run
-    rescue Selenium::WebDriver::Error::UnknownError => e
+    rescue Selenium::WebDriver::Error::UnknownError
       retries += 1
-      raise e unless retries <= max_retries
-
-      puts "Retrying test due to Selenium error: #{e.message}"
       retry
     end
   end

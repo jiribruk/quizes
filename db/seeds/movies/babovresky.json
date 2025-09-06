@@ -1,6 +1,7 @@
 {
   "category": "movies",
   "name": "Kvíz o filmu Babovřesky",
+  "visibility": 1,
   "questions": [
     {
       "text": "Kdo je režisérem filmu Babovřesky?",

@@ -17,11 +17,10 @@
   <body class="bg-light min-vh-100 d-flex flex-column" style="padding-top: 56px;">
     <%= top_navbar %>
 
+    
     <div class="container mt-3">
       <%= render 'layouts/flash' %>
     </div>
-
-    <%= render partial: 'layouts/side_bar' %>
     <main class="flex-grow-1 d-flex justify-content-center align-items-center">
       <div class="container text-center mt-5">
         <%= yield %>
