@@ -218,11 +218,11 @@ module QuizzesHelper
 
     case performance_level
     when :green
-      "#{base_classes} border-success"
+      "#{base_classes} bg-success bg-opacity-10"
     when :yellow
-      "#{base_classes} border-warning"
+      "#{base_classes} bg-warning bg-opacity-10"
     when :red
-      "#{base_classes} border-danger"
+      "#{base_classes} bg-danger bg-opacity-10"
     else
       base_classes
     end
