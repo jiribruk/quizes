@@ -15,16 +15,19 @@
 class EvaluateQuiz
   include Callable
 
-  # Initializes the service with a quiz and user answers.
+  # Initializes the service with a quiz, user answers, and optionally a user.
   #
   # @param quiz [Quiz] The quiz to be evaluated.
   # @param user_answers [Hash{String => String}] A hash mapping question IDs to user answer IDs.
-  def initialize(quiz:, user_answers:)
+  # @param user [User] The user taking the quiz (optional, for history tracking).
+  def initialize(quiz:, user_answers:, user:)
     @quiz = quiz
     @user_answers = user_answers || {}
+    @user = user
   end
 
   # Evaluates the quiz and returns a QuizResult object with score and question results.
+  # Also saves the result to history if a user is provided.
   #
   # @return [QuizResult] The evaluation result for the quiz.
   def call
@@ -33,6 +36,10 @@ class EvaluateQuiz
       add_question_data_to_result(question:, result:)
       result.increase_score if correct?(question:)
     end
+
+    # Save to history if user is provided
+    save_to_history(result)
+
     result
   end
 
@@ -75,5 +82,19 @@ class EvaluateQuiz
       user_answer_id: user_answer_id(question:),
       correct: correct?(question:)
     ))
+  end
+
+  # Saves the quiz result to the user's history
+  #
+  # @param result [QuizResult] The evaluation result to save
+  # @return [void]
+  def save_to_history(result)
+    QuizResultHistory.create!(
+      user: @user,
+      quiz: @quiz,
+      score: result.score,
+      questions_count: result.questions_count,
+      completed_at: Time.current
+    )
   end
 end

@@ -20,6 +20,7 @@ class User < ApplicationRecord
   has_many :owned_user_groups, class_name: 'UserGroup', foreign_key: 'owner_id', dependent: :destroy
   has_many :user_group_memberships, dependent: :destroy
   has_many :user_groups, through: :user_group_memberships
+  has_many :quiz_result_histories, dependent: :destroy
 
   # Validations
   validates :email, presence: true, uniqueness: { case_sensitive: false }

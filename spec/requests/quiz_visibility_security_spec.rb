@@ -16,10 +16,10 @@ describe 'Quiz Visibility Security', type: :request do
 
   # Test public quiz visibility
   describe 'Public Quiz Visibility' do
-    let!(:public_quiz) { create(:quiz, visibility: :public, user: owner) }
+    let!(:public_quiz) { create(:quiz, :with_questions_and_answers, visibility: :public, user: owner) }
 
     context 'when user is authenticated' do
-      before { sign_in other_user }
+      before { login_with_warden!(other_user) }
 
       it 'allows access to public quiz via index' do
         get quizzes_path
@@ -34,7 +34,10 @@ describe 'Quiz Visibility Security', type: :request do
       end
 
       it 'allows evaluation of public quiz' do
-        post evaluation_quiz_path(public_quiz), params: { answers: {} }, as: :turbo_stream
+        question = public_quiz.questions.first
+        correct_answer = question.correct_answer
+        user_answers = { question.id.to_s => correct_answer.id.to_s }
+        post evaluation_quiz_path(public_quiz), params: { answers: user_answers }, as: :turbo_stream
         expect(response).to have_http_status(:success)
       end
 
@@ -67,10 +70,10 @@ describe 'Quiz Visibility Security', type: :request do
 
   # Test private quiz visibility
   describe 'Private Quiz Visibility' do
-    let!(:private_quiz) { create(:quiz, visibility: :private, user: owner) }
+    let!(:private_quiz) { create(:quiz, :with_questions_and_answers, visibility: :private, user: owner) }
 
     context 'when accessed by owner' do
-      before { sign_in owner }
+      before { login_with_warden!(owner) }
 
       it 'allows access to private quiz via index' do
         get quizzes_path
@@ -104,13 +107,16 @@ describe 'Quiz Visibility Security', type: :request do
       end
 
       it 'allows evaluation of private quiz' do
-        post evaluation_quiz_path(private_quiz), params: { answers: {} }, as: :turbo_stream
+        question = private_quiz.questions.first
+        correct_answer = question.correct_answer
+        user_answers = { question.id.to_s => correct_answer.id.to_s }
+        post evaluation_quiz_path(private_quiz), params: { answers: user_answers }, as: :turbo_stream
         expect(response).to have_http_status(:success)
       end
     end
 
     context 'when accessed by non-owner' do
-      before { sign_in other_user }
+      before { login_with_warden!(other_user) }
 
       it 'denies access to private quiz via index' do
         get quizzes_path
@@ -162,7 +168,7 @@ describe 'Quiz Visibility Security', type: :request do
   # Test private quiz with user groups
   describe 'Private Quiz with User Groups' do
     let!(:user_group) { create(:user_group, owner: owner) }
-    let!(:private_quiz) { create(:quiz, visibility: :private, user: owner) }
+    let!(:private_quiz) { create(:quiz, :with_questions_and_answers, visibility: :private, user: owner) }
     let!(:quiz_user_group) { create(:quiz_user_group, quiz: private_quiz, user_group: user_group) }
 
     before do
@@ -171,7 +177,7 @@ describe 'Quiz Visibility Security', type: :request do
     end
 
     context 'when accessed by group member' do
-      before { sign_in group_member }
+      before { login_with_warden!(group_member) }
 
       it 'allows access to private quiz via index' do
         get quizzes_path
@@ -186,7 +192,10 @@ describe 'Quiz Visibility Security', type: :request do
       end
 
       it 'allows evaluation of private quiz' do
-        post evaluation_quiz_path(private_quiz), params: { answers: {} }, as: :turbo_stream
+        question = private_quiz.questions.first
+        correct_answer = question.correct_answer
+        user_answers = { question.id.to_s => correct_answer.id.to_s }
+        post evaluation_quiz_path(private_quiz), params: { answers: user_answers }, as: :turbo_stream
         expect(response).to have_http_status(:success)
       end
 
@@ -212,7 +221,7 @@ describe 'Quiz Visibility Security', type: :request do
     end
 
     context 'when accessed by non-group member' do
-      before { sign_in non_member }
+      before { login_with_warden!(non_member) }
 
       it 'denies access to private quiz via index' do
         get quizzes_path
@@ -236,7 +245,7 @@ describe 'Quiz Visibility Security', type: :request do
     let!(:other_private_quiz) { create(:quiz, visibility: :private, user: other_user) }
 
     context 'when accessed by owner' do
-      before { sign_in owner }
+      before { login_with_warden!(owner) }
 
       it 'shows all quizzes in index' do
         get quizzes_path
@@ -249,7 +258,7 @@ describe 'Quiz Visibility Security', type: :request do
     end
 
     context 'when accessed by other user' do
-      before { sign_in other_user }
+      before { login_with_warden!(other_user) }
 
       it 'shows only public quizzes in index' do
         get quizzes_path
@@ -267,7 +276,7 @@ describe 'Quiz Visibility Security', type: :request do
     context 'when quiz has no user (public quiz)' do
       let!(:public_quiz_no_user) { create(:quiz, visibility: :public, user: nil) }
 
-      before { sign_in other_user }
+      before { login_with_warden!(other_user) }
 
       it 'allows access to public quiz without user' do
         get quiz_path(public_quiz_no_user)
@@ -293,7 +302,7 @@ describe 'Quiz Visibility Security', type: :request do
       before do
         create(:user_group_membership, user: group_member, user_group: group1)
         create(:user_group_membership, user: group_member, user_group: group2)
-        sign_in group_member
+        login_with_warden!(group_member)
       end
 
       it 'allows access to quizzes from both groups' do
@@ -313,7 +322,7 @@ describe 'Quiz Visibility Security', type: :request do
 
       before do
         create(:user_group_membership, user: group_member, user_group: group1)
-        sign_in group_member
+        login_with_warden!(group_member)
       end
 
       it 'allows access to quiz shared with multiple groups' do

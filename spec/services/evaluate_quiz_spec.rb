@@ -8,6 +8,7 @@ require 'rails_helper'
 # @see EvaluateQuiz
 describe EvaluateQuiz, type: :service do
   # Creates test quiz with two questions and their respective answers
+  let(:user) { create(:user) }
   let(:quiz) { create(:quiz) }
   let!(:question1) do
     create(:question, text: 'Question 1', quiz: quiz, answers: [answer1_q1, answer2_q1])
@@ -30,7 +31,7 @@ describe EvaluateQuiz, type: :service do
   end
 
   # Subject for testing the service call
-  subject(:result) { described_class.call(quiz:, user_answers:) }
+  subject(:result) { described_class.call(quiz:, user_answers:, user:) }
 
   # Helper method to verify question result structure and content
   #
