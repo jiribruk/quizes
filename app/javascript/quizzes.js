@@ -1,5 +1,5 @@
 // Quiz form visibility toggle functionality
-document.addEventListener('DOMContentLoaded', function() {
+function initializeQuizVisibility() {
   const privateSwitch = document.getElementById('quiz_private_switch');
   const userGroupsSection = document.getElementById('user-groups-section');
   const publicWarning = document.getElementById('public-warning');
@@ -31,8 +31,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (privateSwitch) {
     privateSwitch.addEventListener('change', updateVisibility);
+    // Initialize on page load
+    updateVisibility();
   }
-  
-  // Initialize on page load
-  updateVisibility();
-});
+}
+
+// Initialize on DOM ready (for direct page loads)
+document.addEventListener('DOMContentLoaded', initializeQuizVisibility);
+
+// Initialize on Turbo navigation (for AJAX page loads)
+document.addEventListener('turbo:load', initializeQuizVisibility);
