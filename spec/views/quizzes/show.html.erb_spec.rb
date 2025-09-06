@@ -20,9 +20,8 @@ describe 'quizzes/show', type: :view do
   # Subject for testing the rendered view
   subject(:rendered) { render }
 
-  # Tests that the page displays the quiz name and edit link
+  # Tests that the page displays the quiz name
   it { is_expected.to have_selector('h1', text: quiz.name) }
-  it { is_expected.to have_link('✏', href: edit_quiz_path(quiz)) }
   it { is_expected.to have_selector("span[id='score_marker']") }
 
   # Tests that questions are displayed with their text

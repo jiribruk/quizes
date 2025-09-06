@@ -16,7 +16,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   # Associations
-  has_many :quizzes, dependent: :destroy #TODO optimalizovat pro skupinove kvízy
+  has_many :quizzes, dependent: :destroy # TODO: optimalizovat pro skupinove kvízy
   has_many :owned_user_groups, class_name: 'UserGroup', foreign_key: 'owner_id', dependent: :destroy
   has_many :user_group_memberships, dependent: :destroy
   has_many :user_groups, through: :user_group_memberships

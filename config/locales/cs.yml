@@ -141,12 +141,49 @@ cs:
       gravatar_info: "Avatar z Gravatar.com"
       change_password: "Změnit heslo"
 
+
   activerecord:
     attributes:
       user:
         first_name: "Jméno"
         last_name: "Příjmení"
+      quiz:
+        name: "Název kvízu"
+        category: "Kategorie"
+        visibility: "Viditelnost"
+        user: "Uživatel"
+      user_group:
+        name: "Název skupiny"
+        description: "Popis"
+        owner: "Vlastník"
+      quiz_user_group:
+        quiz: "Kvíz"
+        user_group: "Skupina uživatelů"
+      user_group_membership:
+        user: "Uživatel"
+        user_group: "Skupina uživatelů"
     errors:
+      messages:
+        blank: "je povinná položka"
+        taken: "již databáze obsahuje"
+        too_short: "je příliš krátký/á/é (min. %{count} znaků)"
+        confirmation: "nebylo potvrzeno"
+        inclusion: "není zahrnuto v seznamu"
+        exclusion: "je vyhrazeno"
+        invalid: "není platný"
+        not_a_number: "není číslo"
+        greater_than: "musí být větší než %{count}"
+        greater_than_or_equal_to: "musí být větší nebo rovno %{count}"
+        equal_to: "musí být rovno %{count}"
+        less_than: "musí být menší než %{count}"
+        less_than_or_equal_to: "musí být menší nebo rovno %{count}"
+        other_than: "musí být jiné než %{count}"
+        odd: "musí být liché"
+        even: "musí být sudé"
+        too_long: "je příliš dlouhý/á/é (max. %{count} znaků)"
+        wrong_length: "má nesprávnou délku (musí být %{count} znaků)"
+        not_saved: "nebyl uložen kvůli %{count} chybám"
+        required: "musí existovat"
       models:
         user:
           attributes:
@@ -154,3 +191,34 @@ cs:
               invalid: "Zadejte prosím jméno (2-50 znaků)."
             last_name:
               invalid: "Zadejte prosím příjmení (2-50 znaků)."
+            email:
+              blank: "je povinná položka"
+              taken: "již databáze obsahuje"
+            password:
+              blank: "je povinná položka"
+              too_short: "je příliš krátký/á/é (min. 6 znaků)"
+            password_confirmation:
+              confirmation: "nebylo potvrzeno"
+        quiz:
+          attributes:
+            user:
+              blank: "je povinná položka"
+        user_group:
+          attributes:
+            name:
+              blank: "je povinná položka"
+              too_short: "je příliš krátký/á/é (min. 2 znaky)"
+            owner:
+              blank: "musí existovat"
+        quiz_user_group:
+          attributes:
+            quiz:
+              blank: "musí existovat"
+            user_group:
+              blank: "musí existovat"
+        user_group_membership:
+          attributes:
+            user:
+              blank: "musí existovat"
+            user_group:
+              blank: "musí existovat"

@@ -24,13 +24,12 @@ class Quiz < ApplicationRecord
   validates :user, presence: true, if: :visibility_private?
 
   # Scopes
-  scope :visible_to_user, ->(user) { 
+  scope :visible_to_user, lambda { |user|
     includes(:user_groups)
-    .where(visibility: 'public')
-    .or(where(visibility: 'private', user: user))
-    .or(where(visibility: 'private', user_groups: { id: user.user_groups.pluck(:id) }))
+      .where(visibility: 'public')
+      .or(where(visibility: 'private', user: user))
+      .or(where(visibility: 'private', user_groups: { id: user.user_groups.pluck(:id) }))
   }
-
 
   # Orders quizzes by name in ascending order
   default_scope { order(name: :asc) }
@@ -46,6 +45,7 @@ class Quiz < ApplicationRecord
     return true if visibility_public?
     return true if visibility_private? && user == self.user
     return true if visibility_private? && user&.user_groups&.exists?(id: user_groups.pluck(:id))
+
     false
   end
 end

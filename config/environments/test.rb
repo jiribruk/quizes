@@ -65,6 +65,6 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
 
-  # Set default locale to English for tests
-  config.i18n.default_locale = :en
+  # Set default locale to Czech for tests to match application locale
+  config.i18n.default_locale = :cs
 end

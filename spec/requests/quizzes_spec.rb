@@ -71,8 +71,8 @@ describe 'Quizzes', type: :request do
       it 'shows login and registration links in navbar when redirected' do
         get quizzes_path
         follow_redirect!
-        expect(response.body).to include('Přihlásit se')
-        expect(response.body).to include('Zaregistrovat se')
+        expect(response.body).to include(I18n.t('devise.shared.links.sign_in'))
+        expect(response.body).to include(I18n.t('devise.shared.links.sign_up'))
       end
     end
 
@@ -90,9 +90,9 @@ describe 'Quizzes', type: :request do
 
         it 'shows user info in navbar' do
           get quizzes_path
-          expect(response.body).to include('Přihlášen jako:')
+          expect(response.body).to include(I18n.t('users.navbar.signed_in_as', name: user.display_name))
           expect(response.body).to include(user.display_name)
-          expect(response.body).to include('Odhlášen(a).')
+          expect(response.body).to include(I18n.t('devise.sessions.signed_out'))
         end
       end
 

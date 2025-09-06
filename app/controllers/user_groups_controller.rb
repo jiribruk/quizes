@@ -53,8 +53,7 @@ class UserGroupsController < ApplicationController
   # Displays form for editing an existing user group
   #
   # @return [void]
-  def edit
-  end
+  def edit; end
 
   # PATCH/PUT /user_groups/:id
   # Updates an existing user group
@@ -93,10 +92,10 @@ class UserGroupsController < ApplicationController
   #
   # @return [void]
   def authorize_user_group_ownership
-    unless user_group.owner == current_user
-      flash[:alert] = t('user_groups.errors.ownership_required')
-      redirect_to user_groups_path
-    end
+    return if user_group.owner == current_user
+
+    flash[:alert] = t('user_groups.errors.ownership_required')
+    redirect_to user_groups_path
   end
 
   # Strong parameters for user group

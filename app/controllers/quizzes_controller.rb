@@ -138,20 +138,20 @@ class QuizzesController < ApplicationController
   #
   # @return [void]
   def authorize_quiz_access
-    unless quiz.visible_to?(current_user)
-      flash[:alert] = t('quiz.errors.access_denied')
-      redirect_to quizzes_path
-    end
+    return if quiz.visible_to?(current_user)
+
+    flash[:alert] = t('quiz.errors.access_denied')
+    redirect_to quizzes_path
   end
 
   # Authorizes quiz ownership for edit/update/destroy actions
   #
   # @return [void]
   def authorize_quiz_ownership
-    unless quiz.user == current_user
-      flash[:alert] = t('quiz.errors.ownership_required')
-      redirect_to quiz_path(quiz)
-    end
+    return if quiz.user == current_user
+
+    flash[:alert] = t('quiz.errors.ownership_required')
+    redirect_to quiz_path(quiz)
   end
 
   # Creates or retrieves Indexes instance for managing form indexes

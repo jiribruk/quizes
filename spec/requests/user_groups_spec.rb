@@ -28,8 +28,8 @@ RSpec.describe 'UserGroups', type: :request do
       end
 
       it 'shows only owned groups' do
-        my_group = create(:user_group, owner: owner, name: 'My Group')
-        other_group = create(:user_group, owner: other_user, name: 'Other Group')
+        create(:user_group, owner: owner, name: 'My Group')
+        create(:user_group, owner: other_user, name: 'Other Group')
 
         get user_groups_path
         expect(response.body).to include('My Group')
@@ -104,9 +104,9 @@ RSpec.describe 'UserGroups', type: :request do
 
       context 'with valid parameters' do
         it 'creates a new user group' do
-          expect {
+          expect do
             post user_groups_path, params: valid_params
-          }.to change(UserGroup, :count).by(1)
+          end.to change(UserGroup, :count).by(1)
         end
 
         it 'redirects to the created group' do
@@ -124,9 +124,9 @@ RSpec.describe 'UserGroups', type: :request do
         let(:invalid_params) { { user_group: { name: '', description: 'Test' } } }
 
         it 'does not create a user group' do
-          expect {
+          expect do
             post user_groups_path, params: invalid_params
-          }.not_to change(UserGroup, :count)
+          end.not_to change(UserGroup, :count)
         end
 
         it 'renders new template' do
@@ -252,9 +252,9 @@ RSpec.describe 'UserGroups', type: :request do
         before { sign_in owner }
 
         it 'deletes the user group' do
-          expect {
+          expect do
             delete user_group_path(user_group)
-          }.to change(UserGroup, :count).by(-1)
+          end.to change(UserGroup, :count).by(-1)
         end
 
         it 'redirects to user groups index' do
@@ -278,9 +278,9 @@ RSpec.describe 'UserGroups', type: :request do
 
         it 'does not delete the user group' do
           group = create(:user_group, owner: owner)
-          expect {
+          expect do
             delete user_group_path(group)
-          }.not_to change(UserGroup, :count)
+          end.not_to change(UserGroup, :count)
         end
       end
     end
