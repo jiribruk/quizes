@@ -23,5 +23,28 @@ FactoryBot.define do
     trait :with_questions_and_answers do
       questions { [build(:question, :with_answers)] }
     end
+
+    # Trait for creating a quiz with 3 questions for feature tests (all in English)
+    trait :with_three_questions do
+      questions do
+        [
+          build(:question, text: 'What is 2+2?', answers: [
+                  build(:answer, text: '3', correct: false),
+                  build(:answer, text: '4', correct: true),
+                  build(:answer, text: '5', correct: false)
+                ]),
+          build(:question, text: 'What is 3x3?', answers: [
+                  build(:answer, text: '6', correct: false),
+                  build(:answer, text: '9', correct: true),
+                  build(:answer, text: '12', correct: false)
+                ]),
+          build(:question, text: 'What is 10-5?', answers: [
+                  build(:answer, text: '3', correct: false),
+                  build(:answer, text: '5', correct: true),
+                  build(:answer, text: '7', correct: false)
+                ])
+        ]
+      end
+    end
   end
 end
