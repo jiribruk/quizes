@@ -14,6 +14,7 @@ class Quiz < ApplicationRecord
   has_many :questions, inverse_of: :quiz, dependent: :destroy
   has_many :quiz_user_groups, dependent: :destroy
   has_many :user_groups, through: :quiz_user_groups
+  has_many :quiz_result_histories, dependent: :destroy
 
   # Enums
   attribute :visibility, :integer
@@ -47,5 +48,30 @@ class Quiz < ApplicationRecord
     return true if visibility_private? && user&.user_groups&.exists?(id: user_groups.pluck(:id))
 
     false
+  end
+
+  # Returns the best result history for a specific user
+  #
+  # @param user [User] the user to get best result for
+  # @return [QuizResultHistory, nil] the best attempt or nil if none exist
+  def best_result_for_user(user)
+    QuizResultHistory.best_for_user_and_quiz(user: user, quiz: self)
+  end
+
+  # Returns the latest result history for a specific user
+  #
+  # @param user [User] the user to get latest result for
+  # @return [QuizResultHistory, nil] the latest attempt or nil if none exist
+  def latest_result_for_user(user)
+    QuizResultHistory.latest_for_user_and_quiz(user: user, quiz: self)
+  end
+
+  # Returns the performance level for a specific user based on their best result
+  #
+  # @param user [User] the user to get performance level for
+  # @return [Symbol, nil] :green, :yellow, :red, or nil if no attempts
+  def performance_level_for_user(user)
+    best_result = best_result_for_user(user)
+    best_result&.performance_level
   end
 end

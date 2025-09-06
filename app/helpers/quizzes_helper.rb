@@ -18,11 +18,12 @@ module QuizzesHelper
   # @param quiz [Quiz]
   # @return [String] HTML safe card with quiz information and actions
   def quiz_card(quiz:)
-    tag.div(class: 'card h-100 shadow-sm') do
+    tag.div(class: quiz_card_performance_classes(quiz: quiz, user: current_user)) do
       tag.div(class: 'card-body d-flex flex-column') do
         safe_join([
                     quiz_card_header(quiz: quiz),
                     quiz_card_info(quiz: quiz),
+                    quiz_performance_indicator(quiz: quiz, user: current_user),
                     quiz_card_actions(quiz: quiz)
                   ])
       end
@@ -202,5 +203,80 @@ module QuizzesHelper
   # @return [String] HTML safe question block
   def quiz_question_title(question_text:)
     tag.h4(question_text)
+  end
+
+  # Returns CSS classes for quiz card based on user's performance
+  #
+  # @param quiz [Quiz] the quiz to get performance for
+  # @param user [User, nil] the user to check performance for
+  # @return [String] CSS classes for the quiz card
+  def quiz_card_performance_classes(quiz:, user:)
+    return 'card h-100 shadow-sm' unless user
+
+    performance_level = quiz.performance_level_for_user(user)
+    base_classes = 'card h-100 shadow-sm'
+
+    case performance_level
+    when :green
+      "#{base_classes} bg-success bg-opacity-10"
+    when :yellow
+      "#{base_classes} bg-warning bg-opacity-10"
+    when :red
+      "#{base_classes} bg-danger bg-opacity-10"
+    else
+      base_classes
+    end
+  end
+
+  # Returns performance indicator for quiz card
+  #
+  # @param quiz [Quiz] the quiz to get performance for
+  # @param user [User, nil] the user to check performance for
+  # @return [String] HTML safe performance indicator
+  def quiz_performance_indicator(quiz:, user:)
+    return '' unless user
+
+    best_result = quiz.best_result_for_user(user)
+    return '' unless best_result
+
+    tag.small(class: 'text-muted d-block') do
+      tag.i(class: performance_icon_class(best_result.performance_level),
+            title: performance_tooltip(best_result)) +
+        " #{best_result.percentage}% (#{best_result.score}/#{best_result.questions_count})"
+    end
+  end
+
+  # Returns icon class for performance level
+  #
+  # @param performance_level [Symbol] :green, :yellow, :red
+  # @return [String] Bootstrap icon class
+  def performance_icon_class(performance_level)
+    case performance_level
+    when :green
+      'bi bi-check-circle-fill text-success me-1'
+    when :yellow
+      'bi bi-exclamation-triangle-fill text-warning me-1'
+    when :red
+      'bi bi-x-circle-fill text-danger me-1'
+    else
+      'bi bi-question-circle me-1'
+    end
+  end
+
+  # Returns tooltip text for performance level
+  #
+  # @param result [QuizResultHistory] the result to get tooltip for
+  # @return [String] tooltip text
+  def performance_tooltip(result)
+    case result.performance_level
+    when :green
+      "Výborně! #{result.percentage}% - #{result.completed_at.strftime('%d.%m.%Y')}"
+    when :yellow
+      "Dobře! #{result.percentage}% - #{result.completed_at.strftime('%d.%m.%Y')}"
+    when :red
+      "Zkus to znovu! #{result.percentage}% - #{result.completed_at.strftime('%d.%m.%Y')}"
+    else
+      "#{result.percentage}% - #{result.completed_at.strftime('%d.%m.%Y')}"
+    end
   end
 end
