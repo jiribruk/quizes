@@ -155,7 +155,7 @@ jobs:
 
   docker-compose-test:
     runs-on: ubuntu-latest
-    needs: [unit-tests, feature-tests]
+    needs: [unit-tests, feature-tests, docker-build]
     steps:
       - uses: actions/checkout@v4
 
@@ -165,23 +165,23 @@ jobs:
           echo "POSTGRES_PASSWORD=password" >> .env
           echo "SECRET_KEY_BASE=test_secret_key_base" >> .env
 
-      - name: Run docker-compose up
+      - name: Run docker compose up
         run: |
-          docker-compose -f docker-compose.yml up --build -d
+          docker compose -f docker-compose.yml up --build -d
           sleep 30
 
       - name: Check if services are running
         run: |
-          docker-compose ps
+          docker compose ps
           curl -f http://localhost:8080/health || exit 1
 
       - name: Cleanup
         if: always()
-        run: docker-compose down -v
+        run: docker compose down -v
 
   production-docker-test:
     runs-on: ubuntu-latest
-    needs: [unit-tests, feature-tests]
+    needs: [unit-tests, feature-tests, docker-build]
     steps:
       - uses: actions/checkout@v4
 
@@ -195,7 +195,7 @@ jobs:
       - name: Run production tests with Docker Compose
         run: |
           echo "=== Starting Production Environment ==="
-          docker-compose -f docker-compose.prod.yml up --build --abort-on-container-exit --exit-code-from test
+          docker compose -f docker-compose.prod.yml up --build --abort-on-container-exit --exit-code-from test
           
           echo "=== Production Test Results ==="
           echo "Test container exit code: $?"
@@ -203,14 +203,14 @@ jobs:
       - name: Check production services status
         run: |
           echo "=== Docker Compose Services Status ==="
-          docker-compose -f docker-compose.prod.yml ps
+          docker compose -f docker-compose.prod.yml ps
           
           echo "=== Service Health Checks ==="
           echo "PostgreSQL health:"
-          docker-compose -f docker-compose.prod.yml exec -T db pg_isready -U postgres
+          docker compose -f docker-compose.prod.yml exec -T db pg_isready -U postgres
           
           echo "Redis health:"
-          docker-compose -f docker-compose.prod.yml exec -T redis redis-cli ping
+          docker compose -f docker-compose.prod.yml exec -T redis redis-cli ping
           
           echo "Rails application health:"
           curl -f http://localhost:3001/health
@@ -237,16 +237,16 @@ jobs:
         if: failure()
         run: |
           echo "=== Application Logs ==="
-          docker-compose -f docker-compose.prod.yml logs web
+          docker compose -f docker-compose.prod.yml logs web
           echo "=== Database Logs ==="
-          docker-compose -f docker-compose.prod.yml logs db
+          docker compose -f docker-compose.prod.yml logs db
           echo "=== Redis Logs ==="
-          docker-compose -f docker-compose.prod.yml logs redis
+          docker compose -f docker-compose.prod.yml logs redis
           echo "=== Nginx Logs ==="
-          docker-compose -f docker-compose.prod.yml logs nginx
+          docker compose -f docker-compose.prod.yml logs nginx
 
       - name: Cleanup production environment
         if: always()
         run: |
-          docker-compose -f docker-compose.prod.yml down -v
+          docker compose -f docker-compose.prod.yml down -v
           docker system prune -f
