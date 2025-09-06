@@ -133,7 +133,6 @@ jobs:
   docker-build-arm64:
     runs-on: ubuntu-latest
     # Only build ARM64 if Docker-related files changed or on main branch
-    if: (contains(github.event.head_commit.modified, 'Dockerfile') || contains(github.event.head_commit.modified, 'Gemfile') || contains(github.event.head_commit.modified, 'Gemfile.lock') || contains(github.event.head_commit.modified, 'docker-compose')) && (github.ref == 'refs/heads/main' || github.event_name == 'push')
     steps:
       - uses: actions/checkout@v4
 
