@@ -1,8 +1,36 @@
-#!/bin/bash -e
+#!/bin/bash
+set -e
 
-# If running the rails server then create or migrate existing database
-if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
-  ./bin/rails db:prepare
+# Remove a potentially pre-existing server.pid for Rails.
+rm -f /rails/tmp/pids/server.pid
+
+# Wait for database to be ready
+echo "Waiting for database..."
+until pg_isready -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -U "$POSTGRES_USER"; do
+  echo "Database is unavailable - sleeping"
+  sleep 2
+done
+echo "Database is ready!"
+
+# Wait for Redis to be ready
+echo "Waiting for Redis..."
+until redis-cli -h redis ping 2>/dev/null; do
+  echo "Redis is unavailable - sleeping"
+  sleep 2
+done
+echo "Redis is ready!"
+
+# Run database migrations
+echo "Running database migrations..."
+bundle exec rails db:migrate
+
+# Create database if it doesn't exist (for development)
+if [ "$RAILS_ENV" = "development" ]; then
+  echo "Creating database if it doesn't exist..."
+  bundle exec rails db:create || true
+  bundle exec rails db:migrate || true
+  bundle exec rails db:seed || true
 fi
 
-exec "${@}"
+# Execute the container's main process (what's set as CMD in the Dockerfile).
+exec "$@"

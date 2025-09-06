@@ -24,22 +24,29 @@ jobs:
   unit-tests:
     runs-on: ubuntu-latest
     services:
-      mysql:
-        image: mysql:8.0
+      postgres:
+        image: postgres:16
         ports:
-          - 3306:3306
+          - 5432:5432
         env:
-          MYSQL_ROOT_PASSWORD: ''
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: quizzes_test
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: quizzes_test
         options: >-
-          --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=5
+          --health-cmd="pg_isready -U postgres" --health-interval=10s --health-timeout=5s --health-retries=5
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=5
     env:
       RAILS_ENV: test
-      MYSQL_HOST: 127.0.0.1
-      MYSQL_USER: root
-      MYSQL_PASSWORD: ''
+      POSTGRES_HOST: 127.0.0.1
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_PORT: 5432
       DATABASE: quizzes_test
+      REDIS_URL: redis://127.0.0.1:6379/0
     steps:
       - uses: actions/checkout@v4
 
@@ -52,7 +59,7 @@ jobs:
       - name: Wait for MySQL
         run: |
           for i in {1..30}; do
-            mysqladmin ping -h127.0.0.1 -uroot --silent && break
+            pg_isready -h127.0.0.1 -p5432 -Upostgres && break
             sleep 1
           done
 
@@ -68,22 +75,29 @@ jobs:
   feature-tests:
     runs-on: ubuntu-latest
     services:
-      mysql:
-        image: mysql:8.0
+      postgres:
+        image: postgres:16
         ports:
-          - 3306:3306
+          - 5432:5432
         env:
-          MYSQL_ROOT_PASSWORD: ''
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: quizzes_test
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: quizzes_test
         options: >-
-          --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=5
+          --health-cmd="pg_isready -U postgres" --health-interval=10s --health-timeout=5s --health-retries=5
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=5
     env:
       RAILS_ENV: test
-      MYSQL_HOST: 127.0.0.1
-      MYSQL_USER: root
-      MYSQL_PASSWORD: ''
+      POSTGRES_HOST: 127.0.0.1
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_PORT: 5432
       DATABASE: quizzes_test
+      REDIS_URL: redis://127.0.0.1:6379/0
     steps:
       - uses: actions/checkout@v4
 
@@ -103,7 +117,7 @@ jobs:
       - name: Wait for MySQL
         run: |
           for i in {1..30}; do
-            mysqladmin ping -h127.0.0.1 -uroot --silent && break
+            pg_isready -h127.0.0.1 -p5432 -Upostgres && break
             sleep 1
           done
 
@@ -115,3 +129,128 @@ jobs:
 
       - name: Run Feature Tests
         run: bundle exec rspec spec/features/
+
+  docker-build-arm64:
+    runs-on: ubuntu-latest
+    # Only build ARM64 if Docker-related files changed or on main branch
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU for ARM64 emulation
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image for ARM64
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/arm64
+          push: false
+          tags: quizzes:arm64-test
+          cache-from: type=gha,scope=arm64
+          cache-to: type=gha,mode=max,scope=arm64
+          build-args: |
+            BUILDKIT_INLINE_CACHE=1
+
+  docker-compose-test:
+    runs-on: ubuntu-latest
+    needs: [unit-tests, feature-tests]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create .env file
+        run: |
+          echo "DATABASE=quizzes_test" >> .env
+          echo "POSTGRES_PASSWORD=password" >> .env
+          echo "SECRET_KEY_BASE=test_secret_key_base" >> .env
+
+      - name: Run docker compose up (x86_64 for speed)
+        run: |
+          docker compose -f docker-compose.yml up --build -d
+          sleep 30
+
+      - name: Check if services are running
+        run: |
+          docker compose ps
+          curl -f http://localhost:8080/health || exit 1
+
+      - name: Cleanup
+        if: always()
+        run: docker compose down -v
+
+  production-docker-test:
+    runs-on: ubuntu-latest
+    needs: [unit-tests, feature-tests]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create production .env file
+        run: |
+          echo "DATABASE=quizzes_prod_test" >> .env
+          echo "POSTGRES_PASSWORD=prod_test_password" >> .env
+          echo "SECRET_KEY_BASE=production_test_secret_key_base_$(date +%s)" >> .env
+          echo "RAILS_ENV=production" >> .env
+
+      - name: Run production tests with Docker Compose (x86_64 for speed)
+        run: |
+          echo "=== Starting Production Environment ==="
+          # Use x86_64 for faster testing, ARM64 only for final deployment
+          docker compose -f docker-compose.prod.yml up --build --abort-on-container-exit --exit-code-from test
+          
+          echo "=== Production Test Results ==="
+          echo "Test container exit code: $?"
+
+      - name: Check production services status
+        run: |
+          echo "=== Docker Compose Services Status ==="
+          docker compose -f docker-compose.prod.yml ps
+          
+          echo "=== Service Health Checks ==="
+          echo "PostgreSQL health:"
+          docker compose -f docker-compose.prod.yml exec -T db pg_isready -U postgres
+          
+          echo "Redis health:"
+          docker compose -f docker-compose.prod.yml exec -T redis redis-cli ping
+          
+          echo "Rails application health:"
+          curl -f http://localhost:3001/health
+
+      - name: Test production endpoints externally
+        run: |
+          echo "=== Testing Production Endpoints from Host ==="
+          
+          # Test Nginx health endpoint
+          echo "Testing Nginx health endpoint..."
+          curl -f http://localhost:8080/health || exit 1
+          
+          # Test main application through Nginx
+          echo "Testing main application through Nginx..."
+          curl -f -I http://localhost:8080/ || exit 1
+          
+          # Test direct Rails application
+          echo "Testing direct Rails application..."
+          curl -f -I http://localhost:3001/ || exit 1
+          
+          echo "=== All endpoints are accessible ==="
+
+      - name: Check application logs
+        if: failure()
+        run: |
+          echo "=== Application Logs ==="
+          docker compose -f docker-compose.prod.yml logs web
+          echo "=== Database Logs ==="
+          docker compose -f docker-compose.prod.yml logs db
+          echo "=== Redis Logs ==="
+          docker compose -f docker-compose.prod.yml logs redis
+          echo "=== Nginx Logs ==="
+          docker compose -f docker-compose.prod.yml logs nginx
+
+      - name: Cleanup production environment
+        if: always()
+        run: |
+          docker compose -f docker-compose.prod.yml down -v
+          docker system prune -f
